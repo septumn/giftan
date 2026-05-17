@@ -1,0 +1,15 @@
+/node_modules
+/db_data
+/minio_data
+/.next/
+/out/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+.env
+.env*.local
+/.vscode/
+.DS_Store
+*.log

@@ -1,0 +1,53 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npx next dev
+    environment:
+      - DATABASE_URL=postgresql://giftan_user:giftan_password@db:5432/giftan_db?schema=public
+      - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_ROOT_USER=giftan_admin
+      - MINIO_ROOT_PASSWORD=giftan_secure_password
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_started
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: giftan_user
+      POSTGRES_PASSWORD: giftan_password
+      POSTGRES_DB: giftan_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U giftan_user -d giftan_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: giftan_admin
+      MINIO_ROOT_PASSWORD: giftan_secure_password
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
