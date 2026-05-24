@@ -1,0 +1,98 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: ID!
+  name: String
+  email: String
+  emailVerified: DateTime
+  bio: String
+  image: String
+  confirmationSentAt: String
+  role: UserRole!
+  isBlocked: Boolean!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  soldGifts: [Gift!]
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+enum UserRole {
+  USER
+  MODERATOR
+  ADMIN
+}
+
+type Gift {
+  id: Int!
+  collection: String!
+  modelName: String!
+  symbol: String!
+  backdrop: String!
+  collectibleNumber: Int!
+  description: String!
+  price: Float!
+  categories: [String!]!
+  createdAt: DateTime!
+  sellerId: String!
+  seller: User!
+}
+
+type LogoutResponse {
+  """Флаг успешного заверешния сессии"""
+  success: Boolean!
+}
+
+type RegisterResponse {
+  success: String
+  user: User
+}
+
+type VerifyResponse {
+  success: Boolean!
+  emailVerified: DateTime
+}
+
+type SendEmailResponse {
+  success: Boolean
+  error: String
+}
+
+type Query {
+  allGifts: [Gift!]!
+  giftById(id: Int!): Gift
+  userById(id: ID!): User
+  me: User
+  legitCheck: Boolean!
+  validateUser(email: String!, password: String!): User
+}
+
+type Mutation {
+  updateProfile(input: UpdateProfileInput!): User!
+  logout: LogoutResponse!
+  refreshSession(userId: String!): LogoutResponse!
+  uploadAvatar(image: String): User!
+  register(input: RegisterInput!): RegisterResponse!
+  verifyEmail(token: String!): VerifyResponse!
+  resendVerificationEmail(email: String!): SendEmailResponse!
+}
+
+"""Входные данные для обновления профиля пользователя"""
+input UpdateProfileInput {
+  """Отображаемое имя пользователя"""
+  name: String
+
+  """Краткая биография (о себе)"""
+  bio: String
+}
+
+input RegisterInput {
+  email: String!
+  name: String!
+  password: String!
+}

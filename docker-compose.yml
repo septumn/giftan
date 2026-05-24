@@ -1,5 +1,5 @@
 services:
-  app:
+  frontend:
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -8,9 +8,12 @@ services:
     volumes:
       - .:/app
       - /app/node_modules
-    command: npx next dev
+      - /app/apps/frontend/.next
+    command: npm run dev:frontend
+    env_file:
+      - ./apps/frontend/.env
     environment:
-      - DATABASE_URL=postgresql://giftan_user:giftan_password@db:5432/giftan_db?schema=public
+      - DATABASE_URL=postgresql://giftan_user:giftan_password@db:5432/giftan_db
       - MINIO_ENDPOINT=minio
       - MINIO_PORT=9000
       - MINIO_ROOT_USER=giftan_admin
@@ -23,6 +26,31 @@ services:
       minio:
         condition: service_started
 
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/backend/.nest
+    command: npm run dev:backend
+    env_file:
+      - ./apps/backend/.env
+    environment:
+      - DATABASE_URL=postgresql://giftan_user:giftan_password@db:5432/giftan_db
+      - NODE_ENV=development
+    depends_on:
+      db:
+        condition: service_healthy
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
   db:
     image: postgres:15-alpine
     environment:
@@ -32,7 +60,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - db_volume:/var/lib/postgresql/data
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U giftan_user -d giftan_db" ]
       interval: 5s
@@ -51,3 +79,6 @@ services:
     command: server /data --console-address ":9001"
     volumes:
       - ./minio_data:/data
+
+volumes:
+  db_volume:
