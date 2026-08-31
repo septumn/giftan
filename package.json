@@ -1,0 +1,40 @@
+{
+  "name": "giftan-monorepo",
+  "private": true,
+  "workspaces": [
+<<<<<<< HEAD
+    "apps/*",
+    "shared/*"
+  ],
+=======
+    "apps/*"
+  ],
+  "overrides": {
+    "fastify": "4.29.1"
+  },
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+  "scripts": {
+    "dev:frontend": "npm run dev -w @giftan/frontend",
+    "dev:backend": "npm run start:dev -w @giftan/backend",
+    "db:generate": "npm run generate -w @giftan/backend",
+    "db:migrate": "npm run migrate -w @giftan/backend",
+<<<<<<< HEAD
+    "db:push": "npm run push -w @giftan/backend",
+    "contracts:build": "tsc -b shared/contracts"
+  },
+  "devDependencies": {
+    "chokidar": "^5.0.0",
+    "typescript": "^6.0.3"
+=======
+    "db:push": "npm run push -w @giftan/backend"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "mercurius": "^16.9.0",
+    "next-auth": "3.29.10"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.18.1"
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+  }
+}

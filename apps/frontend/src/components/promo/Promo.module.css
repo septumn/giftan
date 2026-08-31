@@ -1,0 +1,140 @@
+.promoSection {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  padding: 30px 10px 60px 10px;
+  position: relative;
+  overflow: hidden;
+}
+
+.promoCard {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 10px 30px rgba(30, 58, 138, 0.1);
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.promoCard::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, rgba(255, 255, 255, 0) 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+.promoContent {
+  position: relative;
+  z-index: 1;
+  max-width: 60%;
+}
+
+.promoTitle {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin-bottom: 12px;
+  line-height: 1.2;
+}
+
+.promoSubtitle {
+  font-size: 16px;
+  color: #6b7280;
+  margin-bottom: 25px;
+  line-height: 1.5;
+}
+
+.promoBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(30, 58, 138, 0.3);
+  user-select: none;
+}
+
+.promoBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30, 58, 138, 0.4);
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+}
+
+.promoBtn i {
+  transition: transform 0.3s;
+}
+
+.promoBtn:hover i {
+  transform: translateX(5px);
+}
+
+.promoDecoration {
+  position: relative;
+  z-index: 1;
+  font-size: 120px;
+  color: #3b82f6;
+  opacity: 0.2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
+}
+
+@media (max-width: 968px) {
+  .promoCard {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px;
+  }
+
+  .promoContent {
+    max-width: 100%;
+    margin-bottom: 30px;
+  }
+
+  .promoTitle {
+    font-size: 26px;
+  }
+
+  .promoDecoration {
+    font-size: 80px;
+    opacity: 0.15;
+  }
+  
+  .promoCard::before {
+    right: 50%;
+    transform: translateX(50%);
+    top: -20%;
+  }
+}
+
+@media (max-width: 400px) {
+  .promoTitle {
+    font-size: 22px;
+  }
+  
+  .promoBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

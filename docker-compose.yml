@@ -1,0 +1,145 @@
+services:
+  frontend:
+    build:
+      context: .
+<<<<<<< HEAD
+      dockerfile: ./apps/frontend/Dockerfile.dev
+=======
+      dockerfile: Dockerfile.dev
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/frontend/.next
+    command: npm run dev:frontend
+    env_file:
+      - ./apps/frontend/.env
+    environment:
+<<<<<<< HEAD
+      - NEXT_DISABLE_SWC_WASM=0
+      - NEXT_PRIVATE_LOCAL_WEBPACK=true 
+      - NEXT_PUBLIC_API_URL=http://localhost:3001/graphql
+      - NEST_GRAPHQL_URL=http://backend:3001/graphql
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+      - DATABASE_URL=postgresql://giftan_user:giftan_password@db:5432/giftan_db
+      - MINIO_ENDPOINT=minio
+      - MINIO_PORT=9000
+      - MINIO_ROOT_USER=giftan_admin
+      - MINIO_ROOT_PASSWORD=giftan_secure_password
+      - NODE_ENV=development
+      - WATCHPACK_POLLING=true
+<<<<<<< HEAD
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+    depends_on:
+      db:
+        condition: service_healthy
+      minio:
+        condition: service_started
+<<<<<<< HEAD
+      redis:
+        condition: service_started
+      backend:
+        condition: service_started
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+
+  backend:
+    build:
+      context: .
+<<<<<<< HEAD
+      dockerfile: ./apps/backend/Dockerfile.dev
+=======
+      dockerfile: Dockerfile.dev
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+    ports:
+      - "3001:3001"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/backend/.nest
+<<<<<<< HEAD
+      - /app/apps/backend/dist
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+    command: npm run dev:backend
+    env_file:
+      - ./apps/backend/.env
+    environment:
+      - DATABASE_URL=postgresql://giftan_user:giftan_password@db:5432/giftan_db
+      - NODE_ENV=development
+<<<<<<< HEAD
+      - CHOKIDAR_USEPOLLING=true
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_started
+=======
+    depends_on:
+      db:
+        condition: service_healthy
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: giftan_user
+      POSTGRES_PASSWORD: giftan_password
+      POSTGRES_DB: giftan_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U giftan_user -d giftan_db" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  minio:
+    image: minio/minio:latest
+    restart: always
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: giftan_admin
+      MINIO_ROOT_PASSWORD: giftan_secure_password
+    command: server /data --console-address ":9001"
+    volumes:
+      - ./minio_data:/data
+
+<<<<<<< HEAD
+  minio-init:
+    image: minio/mc
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until (/usr/bin/mc alias set myminio http://minio:9000 giftan_admin giftan_secure_password); do 
+        echo 'Ожидание запуска MinIO...'; 
+        sleep 1; 
+      done;
+      /usr/bin/mc mb --ignore-existing myminio/avatars;
+      /usr/bin/mc anonymous set download myminio/avatars;
+      echo 'Бакет avatars успешно создан и сделан публичным!';
+      exit 0;
+      "
+
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+volumes:
+  db_volume:

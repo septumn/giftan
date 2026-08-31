@@ -1,0 +1,409 @@
+.giftsSection {
+  padding: 60px 0;
+  background: #f8fafc;
+}
+
+.sectionHeader {
+  display: flex;
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  width: 90%;
+}
+
+.sectionTitle {
+  font-size: 28px;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin: 0;
+}
+
+.giftsGrid {
+  width: 90%;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.giftCard {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(30, 58, 138, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+}
+
+.giftCard:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 25px rgba(30, 58, 138, 0.15);
+  border-color: #3b82f6;
+}
+
+.giftImageWrapper {
+  position: relative;
+  height: 220px;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.backdropImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: drop-shadow(0 10px 15px rgba(30, 58, 138, 0.2));
+  transition: transform 0.3s;
+
+  display: block;
+  flex-shrink: 0;
+}
+
+.giftCard:hover .backdropImage {
+  transform: scale(1.05);
+}
+
+.symbolImage {
+  position: absolute;
+  width: 8%;
+  height: auto;
+  z-index: 2;
+  opacity: 0.8;
+  pointer-events: none;
+  filter: brightness(0) saturate(100%) invert(17%) sepia(4%) saturate(251%) hue-rotate(201deg) brightness(96%) contrast(70%);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.symbol1 {
+  top: 5%;
+  left: 25%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol2 {
+  top: 15%;
+  left: 45%;
+  width: 7%;
+  opacity: 0.4;
+}
+
+.symbol3 {
+  top: 6%;
+  left: 75%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol4 {
+  top: 25%;
+  left: 30%;
+  width: 7%;
+  opacity: 0.5;
+}
+
+.symbol5 {
+  top: 25%;
+  left: 60%;
+  width: 7%;
+  opacity: 0.5;
+}
+
+.symbol6 {
+  top: 30%;
+  left: 5%;
+  width: 7%;
+  opacity: 0.4;
+}
+
+.symbol7 {
+  top: 30%;
+  left: 90%;
+  width: 7%;
+  opacity: 0.4;
+}
+
+.symbol8 {
+  top: 45%;
+  left: 20%;
+  width: 7%;
+  opacity: 0.5;
+}
+
+.symbol9 {
+  top: 45%;
+  left: 75%;
+  width: 7%;
+  opacity: 0.5;
+}
+
+.symbol10 {
+  top: 55%;
+  left: -3%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol11 {
+  top: 55%;
+  left: 97%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol12 {
+  top: 60%;
+  left: 10%;
+  width: 7%;
+  opacity: 0.4;
+}
+
+.symbol13 {
+  top: 60%;
+  left: 80%;
+  width: 7%;
+  opacity: 0.4;
+}
+
+.symbol14 {
+  top: 75%;
+  left: 3%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol15 {
+  top: 75%;
+  left: 90%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol16 {
+  top: 80%;
+  left: 20%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol17 {
+  top: 80%;
+  left: 70%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol18 {
+  top: 85%;
+  left: 50%;
+  width: 7%;
+  opacity: 0.3;
+}
+
+.symbol19 {
+  top: 70%;
+  left: 35%;
+  width: 7%;
+  opacity: 0.5;
+}
+
+.symbol20 {
+  top: 65%;
+  left: 55%;
+  width: 7%;
+  opacity: 0.5;
+}
+
+.modelImage {
+  position: absolute;
+  width: 40%;
+  height: auto;
+  z-index: 3;
+}
+
+.giftBadge {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: #ef4444;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+  cursor: context-menu;
+  user-select: none;
+}
+
+.giftBadge.new {
+  background: #10b981;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.giftBadge.sale {
+  background: #f59e0b;
+  box-shadow: 0 4px 10px rgba(245, 158, 11, 0.3);
+}
+
+.addToFavorites {
+  position: absolute;
+  top: 0;
+  right: 15px;
+  color: rgb(159, 159, 159);
+  padding: 12px;
+  border-radius: 20px;
+  font-size: 2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.addToFavorites:hover {
+  color: rgb(194, 194, 194);
+}
+
+.giftInfo {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.giftType {
+  font-size: 13px;
+  color: #6b7280;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 5px;
+}
+
+.giftName {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1e3a8a;
+  margin: 0 0 12px 0;
+  line-height: 1.3;
+}
+
+.giftDetails {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.detailItem {
+  font-size: 13px;
+  color: #475569;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #f1f5f9;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+.detailItem i {
+  color: #3b82f6;
+  font-size: 12px;
+}
+
+.giftDescription {
+  font-size: 14px;
+  color: #64748b;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.giftFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+}
+
+.priceLabel {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+.priceValue {
+  font-size: 22px;
+  font-weight: 800;
+  color: #1e3a8a;
+}
+
+.stockInfo {
+  font-size: 13px;
+  color: #10b981;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.addToCartBtn {
+  width: 100%;
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 10px rgba(30, 58, 138, 0.2);
+  user-select: none;
+}
+
+.addToCartBtn:hover {
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(30, 58, 138, 0.3);
+}
+
+@media (max-width: 968px) {
+  .giftsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 20px;
+  }
+
+  .sectionHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 640px) {
+  .giftsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .giftImageWrapper {
+    height: 200px;
+  }
+}

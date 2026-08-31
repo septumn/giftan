@@ -1,0 +1,63 @@
+{
+  "compilerOptions": {
+<<<<<<< HEAD
+    "target": "ES2023",
+=======
+    "target": "ES2022",
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "paths": {
+      "@/*": [
+        "./src/*"
+<<<<<<< HEAD
+      ],
+      "@giftan/contracts": [
+        "../../shared/contracts/src/index.ts"
+      ],
+      "@giftan/contracts/*": [
+        "../../shared/contracts/src/*"
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    ".next/types/**/*.ts",
+    "auth.d.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "**/node_modules",
+    ".next",
+    "public"
+  ]
+<<<<<<< HEAD
+}
+=======
+}
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78

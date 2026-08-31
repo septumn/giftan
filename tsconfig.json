@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "ignoreDeprecations": "6.0",
+    "skipLibCheck": true,
+    "composite": true,
+    "declaration": true,
+    "paths": {
+      "@frontend/*": [
+        "apps/frontend/src/*"
+      ],
+      "@backend/*": [
+        "apps/backend/src/*"
+<<<<<<< HEAD
+      ],
+      "@gifan/contracts/*": [
+        "shared/contracts"
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+      ]
+    }
+  },
+  "files": [],
+  "include": [],
+  "exclude": [
+    "**/node_modules",
+    "minio_data",
+    "apps/frontend/.next",
+    "apps/frontend/public",
+    "apps/backend/dist",
+    "apps/backend/.nest"
+  ],
+  "references": [
+    {
+      "path": "./apps/frontend"
+    },
+    {
+      "path": "./apps/backend"
+<<<<<<< HEAD
+    },
+    {
+      "path": "./shared/contracts"
+=======
+>>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
+    }
+  ]
+}

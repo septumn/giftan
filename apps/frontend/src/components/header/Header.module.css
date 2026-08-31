@@ -1,0 +1,286 @@
+.header {
+  background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+  color: white;
+  padding: 15px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  user-select: none;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.headerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.logo i {
+  color: #60a5fa;
+  font-size: 32px;
+}
+
+.searchBox {
+  flex: 1;
+  max-width: 600px;
+  position: relative;
+}
+
+.searchForm {
+  display: flex;
+  background: white;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 15%;
+  border: none;
+  padding: 12px 20px;
+  font-size: 15px;
+  outline: none;
+  color: #1e3a8a;
+}
+
+.searchInput::placeholder {
+  color: #9ca3af;
+}
+
+.searchButton {
+  display: flex;
+  align-items: center;
+  background: #3b82f6;
+  border: none;
+  padding: 12px 20px;
+  gap: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background 0.3s;
+}
+
+.searchButton:hover {
+  background: #2563eb;
+}
+
+.searchResults {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border-radius: 12px;
+  margin-top: 10px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  display: none;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 1001;
+}
+
+.searchResults.active {
+  display: block;
+}
+
+.searchResultItem {
+  padding: 15px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.searchResultItem:hover {
+  background: #dbeafe;
+}
+
+.searchResultItem i {
+  font-size: 24px;
+  color: #3b82f6;
+}
+
+.resultInfo h4 {
+  color: #1e3a8a;
+  margin-bottom: 3px;
+}
+
+.resultInfo p {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.resultPrice {
+  margin-left: auto;
+  font-weight: bold;
+  color: #3b82f6;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  flex-shrink: 0;
+}
+
+.actionBtn {
+  color: white;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.actionBtn:hover {
+  color: #60a5fa;
+}
+
+.actionBtn i {
+  font-size: 22px;
+}
+
+.badge {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  background: #ef4444;
+  color: white;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.telegramBtn {
+  background: #0088cc;
+  padding: 10px 20px;
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.telegramBtn:hover {
+  background: #0099e6;
+  transform: translateY(-2px);
+}
+
+.navMenu {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+.navMenu div {
+  display: flex;
+  gap: 30px;
+}
+
+.navMenu a {
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
+  position: relative;
+}
+
+.navMenu a:hover {
+  color: #60a5fa;
+}
+
+.navMenu a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #60a5fa;
+  transition: width 0.3s;
+}
+
+.navMenu a:hover::after {
+  width: 100%;
+}
+
+@media (max-width: 968px) {
+    .searchBox {
+      order: 3;
+      max-width: 100%;
+      width: 100%;
+    }
+
+  .headerWrapper {
+    flex-wrap: wrap;
+  }
+
+  .telegramBtn span {
+    display: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .searchForm {
+    height: 48;
+  }
+}
+
+@media (max-width: 640px) {
+  .actionBtn span:not(.badge) {
+    display: none;
+  }
+
+  .badge {
+    right: -15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .logo h1 {
+    display: none;
+  }
+
+  .searchButton span {
+    display: none;
+  }
+}
+
+@media (max-width: 365px) {
+  .navMenu {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
