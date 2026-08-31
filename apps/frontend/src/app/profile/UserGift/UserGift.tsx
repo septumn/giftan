@@ -3,22 +3,10 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import styles from "./NewGifts.module.css";
-<<<<<<< HEAD
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
 import { addToCart, deleteFromCart } from "@/lib/store/slices/cartSlice";
 
 const GiftCard = (/*{ newGift }: GiftCardProps*/) => {
-=======
-import { Gift } from "@prisma/client"
-import { useAppDispatch, useAppSelector } from "@/lib/store/hooks";
-import { addToCart, deleteFromCart } from "@/lib/store/slices/cartSlice";
-
-interface GiftCardProps {
-  newGift: Gift;
-}
-
-const GiftCard = ({ newGift }: GiftCardProps) => {
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   const [isFavorite, setIsFavorite] = useState(false);
 
   const symbols = useMemo(() => Array(20).fill(0), []);

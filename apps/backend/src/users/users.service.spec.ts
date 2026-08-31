@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Test, TestingModule } from '@nestjs/testing'
 import { UsersService } from './users.service'
 import { DRIZZLE } from 'src/db/db.module'
@@ -105,23 +104,3 @@ describe('UsersService', () => {
     })
   })
 })
-=======
-import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService } from './users.service';
-
-describe('UsersService', () => {
-  let service: UsersService;
-
-  beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
-    }).compile();
-
-    service = module.get<UsersService>(UsersService);
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-});
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78

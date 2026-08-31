@@ -13,7 +13,6 @@ export default auth((req) => {
     return NextResponse.redirect(new URL('/profile', req.url))
   }
 
-<<<<<<< HEAD
   // if (isLoggedIn && !isVerified && (pathname === '/profile' || pathname === '/auth')) {
   //   return NextResponse.redirect(new URL('/auth/verification', req.url))
   // }
@@ -21,15 +20,6 @@ export default auth((req) => {
   // if ((!isLoggedIn || !isVerified) && pathname === '/profile') {
   //   return NextResponse.redirect(new URL('/auth', req.url))
   // }
-=======
-  if (isLoggedIn && !isVerified && (pathname === '/profile' || pathname === '/auth')) {
-    return NextResponse.redirect(new URL('/auth/verification', req.url))
-  }
-
-  if ((!isLoggedIn || !isVerified) && pathname === '/profile') {
-    return NextResponse.redirect(new URL('/auth', req.url))
-  }
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
   return NextResponse.next()
 })

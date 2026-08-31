@@ -11,12 +11,9 @@
       ],
       "@backend/*": [
         "apps/backend/src/*"
-<<<<<<< HEAD
       ],
       "@gifan/contracts/*": [
         "shared/contracts"
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       ]
     }
   },
@@ -36,12 +33,9 @@
     },
     {
       "path": "./apps/backend"
-<<<<<<< HEAD
     },
     {
       "path": "./shared/contracts"
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     }
   ]
 }

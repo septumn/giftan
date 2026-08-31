@@ -3,10 +3,7 @@ import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify
 import fastifyCookie from "@fastify/cookie"
 import { AppModule } from "./app.module"
 import { ValidationPipe } from "@nestjs/common"
-<<<<<<< HEAD
 import 'tsconfig-paths/register'
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
 async function bootstrap() {
   const adapter = new FastifyAdapter()

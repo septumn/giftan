@@ -1,9 +1,6 @@
 'use server'
 
-<<<<<<< HEAD
 import { revalidatePath } from "next/cache"
-import { cookies, headers } from "next/headers"
-import { getToken } from "@auth/core/jwt"
 import { getClient } from "@/lib/apollo/client"
 import { UPDATE_PROFILE_MUTATION } from "@/graphql/user/mutations/update-profile"
 import { UpdateProfileData, updateProfileSchema } from "@/lib/schemas/validation/forms/update-profile"
@@ -14,21 +11,6 @@ export async function updateProfile(formData: UpdateProfileData) {
   const session = await getUserData()
 
   if (!session?.id || !session.name) {
-=======
-import { auth, unstable_update } from "@/auth"
-import { revalidatePath } from "next/cache"
-import { cookies, headers } from "next/headers"
-import { getToken } from "@auth/core/jwt"
-import { getMutationClient } from "@/lib/apollo/client"
-import { UPDATE_PROFILE_MUTATION } from "@/graphql/user/mutations/update-profile"
-import { UpdateProfileData, updateProfileSchema } from "@/lib/schemas/forms/update-profile"
-import { updateProfileResponseSchema } from "@/lib/schemas/api/user"
-
-export async function updateProfile(formData: UpdateProfileData) {
-  const session = await auth()
-
-  if (!session || !session.user) {
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     return { error: "Не авторизован" }
   }
 
@@ -40,34 +22,8 @@ export async function updateProfile(formData: UpdateProfileData) {
 
   const safeInput = result.data
 
-<<<<<<< HEAD
   try {
     const client = await getClient()
-=======
-  const allCookies = await cookies()
-  const cookieString = allCookies
-    .getAll()
-    .map((c) => `${c.name}=${c.value}`)
-    .join('; ')
-
-  const token = await getToken({
-    req: {
-      headers: {
-        ...(Object.fromEntries(await headers())),
-        cookie: cookieString,
-      },
-    },
-    secret: process.env.AUTH_SECRET,
-    raw: true
-  })
-
-  if (!token) {
-    return { error: "Токен сессии не найден в куках фронтенда" }
-  }
-
-  try {
-    const client = await getMutationClient(token)
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
     const cleanBio = typeof safeInput.bio === 'string' ? safeInput.bio.trim() : '';
 
@@ -91,16 +47,6 @@ export async function updateProfile(formData: UpdateProfileData) {
 
     const updatedUser = parsed.data.updateProfile
 
-<<<<<<< HEAD
-=======
-    await unstable_update({
-      user: {
-        name: updatedUser.name,
-        bio: updatedUser.bio ?? null
-      }
-    })
-
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     revalidatePath('/profile')
     return { success: true }
   } catch (error: any) {

@@ -18,7 +18,6 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
  */
 export default defineConfig({
   testDir: './tests',
-<<<<<<< HEAD
 
   // ИСПРАВЛЕНИЕ: Игнорируем исходники бэкенда, чтобы Playwright не спотыкался о декораторы NestJS
   testIgnore: [
@@ -28,8 +27,6 @@ export default defineConfig({
     '**/*.controller.spec.ts'
   ],
 
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */

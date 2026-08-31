@@ -1,6 +1,5 @@
 import { ObjectType, Field } from '@nestjs/graphql'
 import { LoginResponse } from '@giftan/contracts'
-import GraphQLJSON from 'graphql-type-json'
 
 @ObjectType()
 export class LoginResponseDto implements LoginResponse {

@@ -1,12 +1,6 @@
 import { Module } from '@nestjs/common'
-<<<<<<< HEAD
 import { AppService } from './app.service'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-=======
-import { AppController } from './app.controller'
-import { AppService } from './app.service'
-import { ConfigModule } from '@nestjs/config'
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 import { DbModule } from './db/db.module'
 import { GraphQLModule } from '@nestjs/graphql'
 import { MercuriusDriver, MercuriusDriverConfig } from '@nestjs/mercurius'
@@ -17,11 +11,8 @@ import { MailModule } from './mail/mail.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core'
 import { GqlAuthGuard } from './common/guard/gql-auth.guard'
-<<<<<<< HEAD
 import { TestsModule } from './tests/tests.module'
 import { JwtModule } from '@nestjs/jwt'
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
 @Module({
   imports: [
@@ -29,11 +20,7 @@ import { JwtModule } from '@nestjs/jwt'
       driver: MercuriusDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       graphiql: true,
-<<<<<<< HEAD
       context: (request, reply) => ({ request, reply }),
-=======
-      context: ({ req, res }) => ({ req, res }),
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     }),
     ConfigModule.forRoot({
       envFilePath: '.env',
@@ -44,7 +31,6 @@ import { JwtModule } from '@nestjs/jwt'
     UsersModule,
     MailModule,
     AuthModule,
-<<<<<<< HEAD
     TestsModule,
     JwtModule.registerAsync({
       global: true,
@@ -64,13 +50,3 @@ import { JwtModule } from '@nestjs/jwt'
   ],
 })
 export class AppModule { }
-=======
-  ],
-  controllers: [AppController],
-  providers: [AppService, {
-    provide: APP_GUARD,
-    useExisting: GqlAuthGuard,
-  }],
-})
-export class AppModule { }
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78

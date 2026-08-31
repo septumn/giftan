@@ -1,17 +1,10 @@
 'use client'
-<<<<<<< HEAD
 
 import { useEffect, useState } from "react"
 import styles from "./page.module.css"
 import { toast } from "sonner"
 import { changePasswordSchema } from "@/lib/schemas/validation/forms/change-password"
 import { emailValidation } from "@/lib/schemas/validation/fields/email"
-=======
-import { useEffect, useState } from "react"
-import styles from "./page.module.css"
-import { toast } from "sonner"
-import { changePasswordSchema, emailValidation } from "@/lib/schemas"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
 type ViewState = 'menu' | 'change_email' | 'change_password' | 'email_code'
 

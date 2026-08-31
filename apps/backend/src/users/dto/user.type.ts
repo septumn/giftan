@@ -28,11 +28,7 @@ export class UserType implements Omit<DbUser, 'password'> {
   @Field(() => String, { nullable: true })
   image!: string | null;
 
-<<<<<<< HEAD
   @Field(() => Date, { nullable: true })
-=======
-  @Field(() => String, { nullable: true })
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   confirmationSentAt!: Date | null;
 
   @Field(() => UserRole)

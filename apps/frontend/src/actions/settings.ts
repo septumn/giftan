@@ -3,11 +3,7 @@ import { users } from "@/db/schema"
 import { eq } from "drizzle-orm"
 import { compare, hash } from "bcrypt-ts"
 import { auth } from "@/auth"
-<<<<<<< HEAD
 import { ChangePasswordData, changePasswordSchema } from "@/lib/schemas/validation/forms/change-password"
-=======
-import { ChangePasswordData, changePasswordSchema } from "@/lib/schemas"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
 export interface ActionResponse {
   success: boolean

@@ -7,11 +7,7 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-<<<<<<< HEAD
     "start:dev": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/main.ts",
-=======
-    "start:dev": "nest start --watch",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "generate": "drizzle-kit generate",
@@ -23,19 +19,12 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-<<<<<<< HEAD
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "dev:backend:direct": "node --env-file=.env -r ts-node/register -r tsconfig-paths/register src/main.ts"
   },
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
     "@giftan/contracts": "^1.0.0",
-=======
-    "test:e2e": "jest --config ./test/jest-e2e.json"
-  },
-  "dependencies": {
-    "@fastify/cookie": "^11.0.2",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.4",
     "@nestjs/core": "^11.0.1",
@@ -46,15 +35,10 @@
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
-<<<<<<< HEAD
     "drizzle-orm": "^0.45.2",
     "fastify": "^5.8.5",
     "graphql": "^16.14.0",
     "graphql-type-json": "^0.3.2",
-=======
-    "fastify": "^5.8.5",
-    "graphql": "^16.14.0",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "ioredis": "^5.10.1",
     "jose": "^6.2.3",
     "mercurius": "^15.0.0",
@@ -71,15 +55,11 @@
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@nestjs/cli": "^11.0.0",
-<<<<<<< HEAD
     "@nestjs/jwt": "^11.0.2",
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
     "@swc/cli": "^0.8.1",
     "@swc/core": "^1.15.40",
-<<<<<<< HEAD
     "@swc/helpers": "^0.5.15",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^25.9.1",
@@ -87,11 +67,6 @@
     "@types/pg": "^8.20.0",
     "@types/supertest": "^7.0.0",
     "chokidar": "^5.0.0",
-=======
-    "@types/passport-jwt": "^4.0.1",
-    "@types/pg": "^8.20.0",
-    "@types/supertest": "^7.0.0",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "drizzle-kit": "^0.31.10",
     "eslint": "^10.4.0",
     "eslint-config-prettier": "^10.0.1",
@@ -105,11 +80,7 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-<<<<<<< HEAD
     "tsx": "^4.22.5",
-=======
-    "typescript": "^6.0.3",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "typescript-eslint": "^8.20.0"
   },
   "jest": {
@@ -127,7 +98,6 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-<<<<<<< HEAD
     "testEnvironment": "node",
     "moduleNameMapper": {
       "^src/(.*)$": "<rootDir>/$1"
@@ -135,8 +105,5 @@
     "transformIgnorePatterns": [
       "/node_modules/(?!uuid)"
     ]
-=======
-    "testEnvironment": "node"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   }
 }

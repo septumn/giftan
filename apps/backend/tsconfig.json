@@ -1,38 +1,21 @@
 {
   "compilerOptions": {
-<<<<<<< HEAD
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "resolvePackageJsonExports": true,
     "ignoreDeprecations": "6.0",
     "esModuleInterop": true,
     "isolatedModules": false,
-=======
-    "module": "commonjs",
-    "moduleResolution": "bundler",
-    "resolvePackageJsonExports": true,
-    "ignoreDeprecations": "6.0",
-    "esModuleInterop": true,
-    "isolatedModules": true,
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "declaration": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-<<<<<<< HEAD
     "preserveSymlinks": true,
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
     "rootDir": "src",
-=======
-    "preserveSymlinks": false,
-    "target": "ES2023",
-    "sourceMap": true,
-    "outDir": "./dist",
-    "rootDir": "./src",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "types": [
       "node",
       "jest"
@@ -47,7 +30,6 @@
     "noFallthroughCasesInSwitch": false,
     "baseUrl": ".",
     "paths": {
-<<<<<<< HEAD
       "@/*": [
         "./src/*"
       ],
@@ -56,13 +38,6 @@
       ],
       "@giftan/contracts/*": [
         "../../shared/contracts/src/*"
-=======
-      "drizzle-orm": [
-        "./node_modules/drizzle-orm"
-      ],
-      "drizzle-orm/*": [
-        "./node_modules/drizzle-orm/*"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       ]
     }
   },
@@ -70,7 +45,6 @@
     "src/**/*"
   ],
   "exclude": [
-<<<<<<< HEAD
     "node_modules",
     "**/node_modules",
     "dist",
@@ -86,12 +60,5 @@
     {
       "path": "../../shared/contracts"
     }
-=======
-    "**/node_modules",
-    "dist",
-    ".nest",
-    "drizzle",
-    "public"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   ]
 }

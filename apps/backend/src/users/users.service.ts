@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Injectable, Inject, NotFoundException, InternalServerErrorException } from '@nestjs/common'
 import Redis from 'ioredis';
 import { DRIZZLE, type DrizzleDB } from 'src/db/db.module'
@@ -95,9 +94,3 @@ export class UsersService {
     }
   }
 }
-=======
-import { Injectable } from '@nestjs/common'
-
-@Injectable()
-export class UsersService { }
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78

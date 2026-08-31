@@ -17,7 +17,6 @@ export default {
   ],
   callbacks: {
     async jwt({ token, user, account, trigger, session }) {
-<<<<<<< HEAD
       let currentToken = token
 
       if (user) {
@@ -45,27 +44,6 @@ export default {
       }
 
       return currentToken
-=======
-      if (user) {
-        token.id = user.id as string
-        token.bio = (user as any).bio
-        token.name = user.name
-        token.image = user.image
-        token.email = user.email
-        token.role = (user as any).role || "USER"
-        token.emailVerified = account?.provider === 'google' ? new Date() : user.emailVerified
-      }
-
-      if (trigger === "update" && session) {
-        token = { ...token }
-        if (session.user?.name) token.name = session.user.name
-        if (session.user?.image) token.image = session.user.image
-        if ("bio" in (session.user || {})) token.bio = session.user.bio
-        if (session.user?.emailVerified) token.emailVerified = new Date(session.user.emailVerified)
-      }
-
-      return token
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     },
 
     async session({ session, token }) {

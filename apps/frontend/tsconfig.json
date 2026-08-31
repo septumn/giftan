@@ -1,10 +1,6 @@
 {
   "compilerOptions": {
-<<<<<<< HEAD
     "target": "ES2023",
-=======
-    "target": "ES2022",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     "lib": [
       "dom",
       "dom.iterable",
@@ -26,15 +22,12 @@
     "paths": {
       "@/*": [
         "./src/*"
-<<<<<<< HEAD
       ],
       "@giftan/contracts": [
         "../../shared/contracts/src/index.ts"
       ],
       "@giftan/contracts/*": [
         "../../shared/contracts/src/*"
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       ]
     },
     "plugins": [
@@ -56,8 +49,4 @@
     ".next",
     "public"
   ]
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78

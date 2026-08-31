@@ -65,11 +65,7 @@ export class MailService {
     }
   }
 
-<<<<<<< HEAD
   async resendVerificationEmail(email: string): Promise<SendEmailResponse> {
-=======
-  async sendMailAgain(email: string): Promise<SendEmailResponse> {
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     const [lastToken] = await this.db
       .select()
       .from(activateTokens)
@@ -77,17 +73,10 @@ export class MailService {
       .orderBy(desc(activateTokens.expires))
       .limit(1)
 
-<<<<<<< HEAD
     const TOKEN_LIFETIME_MS = 3600 * 1000
     const COOLDOWN_SECONDS = 120
 
     if (lastToken) {
-=======
-    if (lastToken) {
-      const TOKEN_LIFETIME_MS = 3600 * 1000
-      const COOLDOWN_SECONDS = 120
-
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       const createdAt = new Date(lastToken.expires.getTime() - TOKEN_LIFETIME_MS)
       const diffInSeconds = Math.floor((Date.now() - createdAt.getTime()) / 1000)
 
@@ -97,11 +86,7 @@ export class MailService {
     }
 
     const token = uuidv4()
-<<<<<<< HEAD
     const expires = new Date(Date.now() + TOKEN_LIFETIME_MS)
-=======
-    const expires = new Date(Date.now() + 3600 * 1000)
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     const confirmLink = `${process.env.NEXT_APP_URL}/auth/verification?token=${token}`
 
     await this.sendVerificationEmail(email, confirmLink)

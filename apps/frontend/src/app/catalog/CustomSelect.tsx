@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 'use client'
 
 import { useState } from 'react'
@@ -61,55 +60,6 @@ export default function CatalogSidebar() {
       berryBoxes: 'berryBox',
       bowTies: 'bowTie',
       bdayCandles: 'bdayCandle',
-=======
-'use client';
-
-import { useState } from 'react';
-import Image from 'next/image';
-import styles from './page.module.css';
-import gift from '../../data/gift.json';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
-export default function CatalogSidebar() {
-  const [searchCollection, setSearchCollection] = useState('');
-  const [searchModel, setSearchModel] = useState('');
-  const [searchSymbol, setSearchSymbol] = useState('');
-  const [searchBackdrop, setSearchBackdrop] = useState('');
-
-  const [openCollections, setOpenCollections] = useState(true);
-  const [openModels, setOpenModels] = useState(true);
-  const [openSymbols, setOpenSymbols] = useState(true);
-  const [openBackdrops, setOpenBackdrops] = useState(true);
-
-  const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  const collections = gift.collections;
-  const collection = collections.find(collection => collection.id === searchParams.get('collection'));
-  const models = collection?.models || [];
-  const symbols = gift.symbols;
-  const backdrops = gift.backdrops;
-
-  const handleFilterChange = (category: string, value: string) => {
-    const params = new URLSearchParams(searchParams.toString());
-
-    if (params.get(category) === value) {
-      params.delete(category);
-    } else {
-      params.set(category, value);
-    }
-
-    router.push(`${pathname}?${params.toString()}`, { scroll: false });
-  };
-
-  const getImage = (id, collection?) => {
-    let result = id;  
-
-    const exceptions = {
-      berryBoxes: 'berryBox',
-      bowTies: 'bowTie',
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       gingerCookies: 'gingerCookie',
       happyBrownies: 'happyBrownie',
       jacksInTheBox: 'jackInTheBox',
@@ -121,7 +71,6 @@ export default function CatalogSidebar() {
       swissWatches: 'swissWatch',
       valentineBoxes: 'valentineBox',
       freshSocks: 'freshSocks'
-<<<<<<< HEAD
     }
 
     if (!collection) {
@@ -156,42 +105,6 @@ export default function CatalogSidebar() {
   const filteredSymbols = filterItems(symbols, searchSymbol)
 
   const filteredBackdrops = filterItems(backdrops, searchBackdrop)
-=======
-    };
-
-    if (!collection) {
-      if (exceptions[id]) {
-        result = exceptions[id];
-      }
-      else if (id.endsWith('ies')) {
-        result = id.replace(/ies$/, 'y');
-      }
-      else if (id.endsWith('s')) {
-        result = id.slice(0, -1);
-      }
-    }
-
-    return `/gift/collections/${collection || id}/${result}.webp`;
-  };
-
-  const filterItems = (items, query) => {
-    const searchTerm = query.trim().toLowerCase();
-
-    if (!searchTerm) return items;
-
-    return items.filter((item) =>
-      item.name.toLowerCase().includes(query)
-    );
-  };
-
-  const filteredCollections = filterItems(collections, searchCollection);
-
-  const filteredModels = filterItems(models, searchModel);
-
-  const filteredSymbols = filterItems(symbols, searchSymbol);
-
-  const filteredBackdrops = filterItems(backdrops, searchBackdrop);
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
   return (
     <div>
@@ -214,15 +127,9 @@ export default function CatalogSidebar() {
               <label key={collection.id} className={styles.itemRow}>
                 <input checked={searchParams.get('collection') === collection.id} onChange={() => handleFilterChange('collection', collection.id)} type="checkbox" />
                 <span className={styles.checkboxCustom}></span>
-<<<<<<< HEAD
                 <Image src={getImage({ id: collection.id })} alt={collection.name} width={20} height={20} className={styles.selectCollectionImage} />
                 <span className={styles.itemLabel}>{collection.name}</span>
                 <span className={styles.itemCount}>{collection.models?.length}</span>
-=======
-                <Image src={getImage(collection.id)} alt={collection.name} width={20} height={20} className={styles.selectCollectionImage} />
-                <span className={styles.itemLabel}>{collection.name}</span>
-                <span className={styles.itemCount}>{collection.models.length}</span>
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
               </label>
             ))}
           </div>
@@ -248,11 +155,7 @@ export default function CatalogSidebar() {
               <label key={model.id} className={styles.itemRow}>
                 <input checked={searchParams.get('model') === model.id} onChange={() => handleFilterChange('model', model.id)} type="checkbox" />
                 <span className={styles.checkboxCustom}></span>
-<<<<<<< HEAD
                 <Image src={getImage({ id: model.id, collection: searchParams.get('collection') || undefined })} alt="collection" width={20} height={20} className={styles.selectModelImage} />
-=======
-                <Image src={getImage(model.id, searchParams.get('collection'))} alt="collection" width={20} height={20} className={styles.selectModelImage} />
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
                 <span className={styles.itemLabel}>{model.name}</span>
               </label>
             ))}
@@ -314,9 +217,5 @@ export default function CatalogSidebar() {
         </div>
       </div>
     </div>
-<<<<<<< HEAD
   )
-=======
-  );
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 }

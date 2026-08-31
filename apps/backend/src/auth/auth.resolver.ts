@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
 import { UseInterceptors } from '@nestjs/common'
 import { ZodSerializerInterceptor } from '@/common/interceptors/zod-serializer.interceptor'
@@ -16,22 +15,10 @@ import { UpdateAccessTokenResponseDto } from './dto/responses/update-access-toke
 import { CurrentUser } from '@/common/decorators/current-user.decorator'
 import { CurrentUserPayload } from '@/common/interfaces/current-user.interface'
 import { TokenType } from '@/types/token'
-=======
-import { Resolver, Mutation, Args, Query } from '@nestjs/graphql'
-import { AuthService } from './auth.service'
-import { Public } from '../common/decorators/public.decorator'
-import { RegisterInput } from './dto/inputs/register.input'
-import { UserType } from 'src/users/dto/user.type'
-import { RegisterResponse } from './dto/responses/register.response'
-import { VerifyResponse } from './dto/responses/verify.response'
-import { SendEmailResponse } from '../mail/dto/send-email.response'
-import { MailService } from 'src/mail/mail.service'
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
 @Resolver()
 export class AuthResolver {
   constructor(
-<<<<<<< HEAD
     private readonly authService: AuthService
   ) { }
 
@@ -74,22 +61,11 @@ export class AuthResolver {
   @UseInterceptors(SetAccessTokenInterceptor)
   async updateAccessToken(@CurrentUser() currentUser: CurrentUserPayload) {
     return this.authService.generateAccessToken(currentUser.id)
-=======
-    private readonly authService: AuthService,
-    private readonly mailService: MailService
-  ) { }
-
-  @Mutation(() => RegisterResponse, { name: 'register' })
-  @Public()
-  async register(@Args('input') input: RegisterInput) {
-    return this.authService.registerCredentials(input.email, input.name, input.password)
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   }
 
   @Query(() => UserType, { name: 'validateUser', nullable: true })
   @Public()
   async validateUser(
-<<<<<<< HEAD
     @Args('email', { type: () => String }) email: string,
     @Args('password', { type: () => String }) password: string
   ): Promise<UserType | null> {
@@ -127,25 +103,5 @@ export class AuthResolver {
     const reply = ctx?.reply 
 
     return this.authService.logout(user.id, reply);
-=======
-    @Args('email') email: string,
-    @Args('password') password: string
-  ) {
-    return this.authService.validateUser(email, password);
-  }
-
-  @Mutation(() => VerifyResponse, { name: 'verifyEmail' })
-  @Public()
-  async verifyEmail(@Args('token') token: string): Promise<VerifyResponse> {
-    return this.authService.verifyToken(token)
-  }
-
-  @Mutation(() => SendEmailResponse, { name: 'resendVerificationEmail' })
-  @Public()
-  async resendVerificationEmail(@Args('email') email: string): Promise<SendEmailResponse> {
-    await this.mailService.sendMailAgain(email);
-
-    return { success: true };
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   }
 }

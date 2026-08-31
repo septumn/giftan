@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-=======
-'use server'
-
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 // import { useState, useEffect } from 'react'
 import styles from './page.module.css'
 import { useSession } from 'next-auth/react'
@@ -15,41 +10,8 @@ import { setOptimisticTitleAvatar } from '@/lib/store/slices/userSlice'
 import LogoutButton from './LogoutButton'
 import ProfileHeader from './components/ProfileHeader/ProfileHeader'
 import ProfileTabs from './components/ProfileTabs/ProfileTabs'
-<<<<<<< HEAD
 
 export default async function ProfilePage() {
-=======
-import { auth } from '@/auth'
-import { db } from "@/db"
-
-const mockProducts = [
-  { id: 1, name: 'Серебряный браслет', price: 4200, category: 'Украшения', status: 'active', image: '💎' },
-  { id: 2, name: 'Кожаный кошелёк', price: 3800, category: 'Аксессуары', status: 'active', image: '👜' },
-  { id: 3, name: 'Хрустальная ваза', price: 6500, category: 'Декор', status: 'sold', image: '🏺' },
-  { id: 4, name: 'Шёлковый шарф', price: 2900, category: 'Одежда', status: 'active', image: '🧣' },
-  { id: 5, name: 'Деревянная шкатулка', price: 1800, category: 'Декор', status: 'hidden', image: '📦' },
-  { id: 6, name: 'Янтарные серьги', price: 5100, category: 'Украшения', status: 'active', image: '✨' },
-];
-
-const stats = [
-  { label: 'Продаж', value: '127' },
-  { label: 'Отзывов', value: '98' },
-  { label: 'Рейтинг', value: '4.9' },
-];
-
-export default async function ProfilePage() {
-  const session = await auth();
-
-  const user = session?.user?.id
-    ? await db.query.users.findFirst({
-      where: (table, { eq }) => eq(table.id, session.user.id),
-      with: {
-        soldGifts: true
-      }
-    })
-    : null
-
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   // const dispatch = useAppDispatch()
 
   // const { data: session, status } = useSession()

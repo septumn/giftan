@@ -6,7 +6,6 @@ import { users, accounts, sessions, verificationTokens } from "@/db/schema"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import { eq } from 'drizzle-orm'
 import authConfig from "@/auth.config"
-<<<<<<< HEAD
 import { getClient } from "./lib/apollo/client"
 import { LOGIN_QUERY } from "./graphql/user/queries/login"
 import { REMOVE_FROM_BLACKLIST } from "./graphql/user/mutations/remove-from-blacklist"
@@ -24,28 +23,6 @@ interface LoginResponse {
     isBlocked: boolean
     emailVerified?: string | null
   } | null
-=======
-
-const NEST_GRAPHQL_URL = 'http://backend:3001/graphql'
-
-declare module "next-auth" {
-  interface User {
-    bio?: string | null
-    emailVerified?: Date | null
-    role?: string | null
-  }
-  interface Session {
-    user: {
-      id: string
-      name?: string | null
-      email?: string | null
-      image?: string | null
-      bio?: string | null
-      emailVerified?: Date | null
-      role?: string | null
-    }
-  }
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 }
 
 export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
@@ -60,11 +37,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   ...authConfig,
 
   providers: [
-<<<<<<< HEAD
     ...authConfig.providers.filter(p => p.id !== "credentials" && p.id !== "nodemailer"),
-=======
-    ...authConfig.providers,
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     Nodemailer({
       server: {
         host: "://gmail.com",
@@ -84,7 +57,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-<<<<<<< HEAD
         if (!credentials) return null
 
         const creds = credentials as Record<string, unknown>
@@ -107,41 +79,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
 
           if (data?.validateUser) {
             const user = data.validateUser
-=======
-        if (!credentials) return null;
-
-        const creds = credentials as Record<string, unknown>;
-        const email = typeof creds.email === 'string' ? creds.email.trim().toLowerCase() : '';
-        const password = typeof creds.password === 'string' ? creds.password : '';
-
-        if (!email || !password) return null;
-
-        const VALIDATE_USER_QUERY = `
-          query ValidateUser($email: String!, $password: String!) {
-            validateUser(email: $email, password: $password) {
-              id name email bio image role isBlocked emailVerified
-            }
-          }
-        `;
-
-        try {
-          const res = await fetch(NEST_GRAPHQL_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              query: VALIDATE_USER_QUERY,
-              variables: { email, password }
-            }),
-          });
-
-          const { data, errors } = await res.json();
-
-          if (errors && errors.length > 0) return null;
-          if (data?.validateUser?.isBlocked) return null;
-
-          if (data?.validateUser) {
-            const user = data.validateUser;
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
             return {
               id: user.id,
               name: user.name,
@@ -150,21 +87,12 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
               image: user.image,
               role: user.role,
               emailVerified: user.emailVerified ? new Date(user.emailVerified) : null
-<<<<<<< HEAD
             }
           }
         } catch (error) {
           console.error('[Auth.js authorize Error]:', error)
         }
         return null
-=======
-            };
-          }
-        } catch (error) {
-          console.error('[Auth.js authorize Error]:', error);
-        }
-        return null;
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       }
     })
   ],
@@ -177,16 +105,11 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
     },
     async linkAccount({ user, account }) {
       if (account.provider === "google" && user.id) {
-<<<<<<< HEAD
         await db.update(users).set({ emailVerified: new Date() }).where(eq(users.id, user.id))
-=======
-        await db.update(users).set({ emailVerified: new Date() }).where(eq(users.id, user.id));
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       }
     },
     async signIn({ user }) {
       if (user && user.id) {
-<<<<<<< HEAD
         const client = await getClient()
 
         try {
@@ -196,30 +119,13 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           })
         } catch (error) {
           console.error('[Auth.js event Error] Не удалось отправить сигнал разбана:', error)
-=======
-        try {
-          await fetch(NEST_GRAPHQL_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              query: `mutation RemoveBan($userId: String!) { refreshSession(userId: $userId) { success } }`,
-              variables: { userId: user.id }
-            }),
-          });
-        } catch (error) {
-          console.error('[Auth.js event Error] Не удалось отправить сигнал разбана:', error);
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
         }
       }
     }
   },
 
   callbacks: {
-<<<<<<< HEAD
     async signIn({ user, account }: { user: any, account?: any }) {
-=======
-    async signIn({ user, account }: { user: any; account?: any }) {
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       if (
         account?.provider === 'nodemailer' ||
         account?.provider === 'credentials' ||
@@ -262,7 +168,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
 
         if (dbUser) {
           currentToken = { ...currentToken }
-<<<<<<< HEAD
           currentToken.image = dbUser.image
           currentToken.bio = dbUser.bio
           currentToken.role = dbUser.role
@@ -270,15 +175,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           if (session?.user?.emailVerified) currentToken.emailVerified = dbUser.emailVerified
         }
         return currentToken
-=======
-          currentToken.image = dbUser.image;
-          currentToken.bio = dbUser.bio;
-          currentToken.role = dbUser.role;
-          if (session?.user?.name) currentToken.name = dbUser.name as string;
-          if (session?.user?.emailVerified) currentToken.emailVerified = dbUser.emailVerified;
-        }
-        return currentToken;
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       }
 
       if (trigger === "update" && session) {
@@ -286,13 +182,8 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         if (session.user?.name) currentToken.name = session.user.name
         if (session.user?.image) currentToken.image = session.user.image
         if ("bio" in (session.user || {})) {
-<<<<<<< HEAD
           const cleanBio = typeof session.user.bio === "string" ? session.user.bio.trim() : ""
           currentToken.bio = cleanBio === "" ? null : session.user.bio
-=======
-          const cleanBio = typeof session.user.bio === "string" ? session.user.bio.trim() : "";
-          currentToken.bio = cleanBio === "" ? null : session.user.bio;
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
         }
         if (session.user?.emailVerified) currentToken.emailVerified = new Date(session.user.emailVerified)
       }
@@ -312,12 +203,4 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
       return session
     }
   },
-<<<<<<< HEAD
-=======
-
-  pages: {
-    newUser: "/auth/set-name",
-    error: '/auth',
-  },
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 })

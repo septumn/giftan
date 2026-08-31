@@ -1,6 +1,5 @@
 'use client'
 
-<<<<<<< HEAD
 import { login, registerUser } from "@/actions/auth"
 import { useEffect, useState, useRef } from "react"
 import { signIn } from "next-auth/react"
@@ -11,25 +10,11 @@ import { registerSchema } from "@/lib/schemas/validation/forms/register"
 import { nameValidation } from "@/lib/schemas/validation/fields/name"
 import { emailValidation } from "@/lib/schemas/validation/fields/email"
 import { passwordValidation } from "@/lib/schemas/validation/fields/password"
-=======
-import { registerUser } from "@/actions/auth"
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { signIn } from "next-auth/react"
-import styles from "./page.module.css"
-import { toast } from "sonner"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
 export default function AuthPageContent() {
   const [isLogin, setIsLogin] = useState(true)
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-<<<<<<< HEAD
-=======
-
-  console.log(new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' }))
-
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   const [loginForm, setLoginForm] = useState({ email: '', password: '' })
   const [registerForm, setRegisterForm] = useState({
     name: '',
@@ -38,7 +23,6 @@ export default function AuthPageContent() {
     confirmPassword: '',
   })
 
-<<<<<<< HEAD
   const [inputError, setInputError] = useState<{
     name: string | null,
     email: string | null,
@@ -87,33 +71,11 @@ export default function AuthPageContent() {
         error: (err) => err.message,
       }
     );
-=======
-  const router = useRouter()
-
-  const handleLoginSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    toast.loading("Выполняется вход...")
-
-    const result = await signIn("credentials", {
-      email: loginForm.email.trim().toLowerCase(),
-      password: loginForm.password,
-      redirect: false,
-    })
-
-    toast.dismiss()
-
-    if (result?.error) {
-      toast.error("Неверный email или пароль")
-    } else {
-      window.location.href = '/profile'
-    }
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   }
 
   const handleRegisterSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-<<<<<<< HEAD
     if (!agreementRef.current?.checked) {
       toast.error('Согласие с условиями использования и политикой конфиденциальности обязательны')
       return
@@ -134,14 +96,11 @@ export default function AuthPageContent() {
       return
     }
 
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     if (registerForm.password !== registerForm.confirmPassword) {
       toast.error('Пароли не совпадают!')
       return
     }
 
-<<<<<<< HEAD
     const validData = validation.data
     toast.loading("Регистрация аккаунта...")
 
@@ -152,14 +111,6 @@ export default function AuthPageContent() {
       formData.append('password', validData.password)
 
       const result = await registerUser(formData)
-=======
-    toast.loading("Регистрация аккаунта...")
-
-    try {
-      const formData = new FormData(e.currentTarget)
-      const result = await registerUser(formData)
-
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       toast.dismiss()
 
       if (result?.error) {
@@ -168,7 +119,6 @@ export default function AuthPageContent() {
       }
 
       if (result?.success) {
-<<<<<<< HEAD
         setRegisterForm({
           name: '',
           email: '',
@@ -176,25 +126,6 @@ export default function AuthPageContent() {
           confirmPassword: '',
         })
         toast.success("Мы отправили письмо для подтверждения на вашу почту!")
-=======
-        const loginResult = await signIn("credentials", {
-          email: registerForm.email.trim().toLowerCase(),
-          password: registerForm.password,
-          redirect: false,
-        })
-
-        if (loginResult?.error) {
-          console.error("Ошибка автоматического входа:", loginResult.error)
-          toast.error("Мы отправили письмо, но войти автоматически не удалось. Войдите через форму 'Вход'.")
-          return
-        }
-
-        toast.success("Мы отправили письмо для подтверждения на вашу почту!")
-
-        setTimeout(() => {
-          window.location.href = '/profile'
-        }, 3000)
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       }
     } catch (err) {
       toast.dismiss()
@@ -203,7 +134,6 @@ export default function AuthPageContent() {
     }
   }
 
-<<<<<<< HEAD
   const setError = (field: 'name' | 'email' | 'password', error: string | null = null) => {
     setInputError(prev => ({ ...prev, [field]: error }))
   }
@@ -260,8 +190,6 @@ export default function AuthPageContent() {
     }
   }, [registerForm.password])
 
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   return (
     <div className={styles.authPageWrapper}>
       <div className={styles.authContainer}>
@@ -385,14 +313,10 @@ export default function AuthPageContent() {
               <input
                 name="name"
                 type="text"
-<<<<<<< HEAD
                 className={`${styles.authInput} ${inputError.name
                   ? styles.inputError
                   : ''
                   }`}
-=======
-                className={styles.authInput}
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
                 placeholder="Ваше имя"
                 value={registerForm.name}
                 onChange={(e) => setRegisterForm({ ...registerForm, name: e.target.value })}
@@ -400,28 +324,21 @@ export default function AuthPageContent() {
               />
             </div>
 
-<<<<<<< HEAD
             {
               inputError.name
                 ? <span className={styles.errorText}>{inputError.name}</span>
                 : ''
             }
 
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>Email</label>
               <input
                 name="email"
                 type="email"
-<<<<<<< HEAD
                 className={`${styles.authInput} ${inputError.email
                   ? styles.inputError
                   : ''
                   }`}
-=======
-                className={styles.authInput}
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
                 placeholder="example@mail.com"
                 value={registerForm.email}
                 onChange={(e) => setRegisterForm({ ...registerForm, email: e.target.value })}
@@ -429,29 +346,22 @@ export default function AuthPageContent() {
               />
             </div>
 
-<<<<<<< HEAD
             {
               inputError.email
                 ? <span className={styles.errorText}>{inputError.email}</span>
                 : ''
             }
 
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
             <div className={styles.formGroup}>
               <label className={styles.formLabel}>Пароль</label>
               <div className={styles.passwordWrapper}>
                 <input
                   name="password"
                   type={showPassword ? 'text' : 'password'}
-<<<<<<< HEAD
                   className={`${styles.authInput} ${inputError.password
                     ? styles.inputError
                     : ''
                     }`}
-=======
-                  className={styles.authInput}
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
                   placeholder="Минимум 8 символов"
                   value={registerForm.password}
                   onChange={(e) =>
@@ -467,7 +377,6 @@ export default function AuthPageContent() {
                   {showPassword ? '🙈' : '👁️'}
                 </button>
               </div>
-<<<<<<< HEAD
 
               {
                 inputError.password
@@ -475,15 +384,12 @@ export default function AuthPageContent() {
                   : ''
               }
 
-=======
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
               <div className={styles.passwordStrength}>
                 <div className={styles.strengthBar}>
                   <div
                     className={styles.strengthFill}
                     style={{
                       width:
-<<<<<<< HEAD
                         !inputError.password && registerForm.password
                           ? '100%'
                           : registerForm.password.length > 6
@@ -495,26 +401,12 @@ export default function AuthPageContent() {
                         !inputError.password && registerForm.password
                           ? '#22c55e'
                           : registerForm.password.length > 6
-=======
-                        registerForm.password.length > 7
-                          ? '100%'
-                          : registerForm.password.length > 4
-                            ? '60%'
-                            : registerForm.password.length > 0
-                              ? '30%'
-                              : '0%',
-                      background:
-                        registerForm.password.length > 7
-                          ? '#22c55e'
-                          : registerForm.password.length > 4
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
                             ? '#f59e0b'
                             : '#ef4444',
                     }}
                   />
                 </div>
                 <span className={styles.strengthText}>
-<<<<<<< HEAD
                   {
                     !inputError.password && registerForm.password
                       ? 'Надёжный'
@@ -524,15 +416,6 @@ export default function AuthPageContent() {
                           ? 'Слабый'
                           : ''
                   }
-=======
-                  {registerForm.password.length > 7
-                    ? 'Надёжный'
-                    : registerForm.password.length > 4
-                      ? 'Средний'
-                      : registerForm.password.length > 0
-                        ? 'Слабый'
-                        : ''}
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
                 </span>
               </div>
             </div>
@@ -566,7 +449,6 @@ export default function AuthPageContent() {
                   {showConfirmPassword ? '🙈' : '👁️'}
                 </button>
               </div>
-<<<<<<< HEAD
 
               {
                 registerForm.confirmPassword &&
@@ -579,16 +461,6 @@ export default function AuthPageContent() {
 
             <label className={`${styles.checkboxLabel} ${styles.agreement}`}>
               <input ref={agreementRef} name="agreement" type="checkbox" className={styles.hiddenCheckbox} />
-=======
-              {registerForm.confirmPassword &&
-                registerForm.confirmPassword !== registerForm.password && (
-                  <span className={styles.errorText}>Пароли не совпадают</span>
-                )}
-            </div>
-
-            <label className={`${styles.checkboxLabel} ${styles.agreement}`}>
-              <input name="agreement" type="checkbox" className={styles.hiddenCheckbox} />
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
               <span data-testid="agreement-span" className={styles.checkboxCustomSmall} />
               <div className={styles.agreementText}>
                 Я согласен с

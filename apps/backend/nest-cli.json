@@ -1,14 +1,9 @@
 {
-<<<<<<< HEAD
   "$schema": "https://schemastore.org",
-=======
-  "$schema": "https://json.schemastore.org/nest-cli",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
     "builder": "swc",
-<<<<<<< HEAD
     "typeCheck": false,
     "deleteOutDir": true,
     "plugins": [
@@ -19,8 +14,5 @@
         }
       }
     ]
-=======
-    "typeCheck": true
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   }
 }

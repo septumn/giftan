@@ -9,11 +9,7 @@ type User {
   emailVerified: DateTime
   bio: String
   image: String
-<<<<<<< HEAD
   confirmationSentAt: DateTime
-=======
-  confirmationSentAt: String
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   role: UserRole!
   isBlocked: Boolean!
   createdAt: DateTime!
@@ -47,7 +43,6 @@ type Gift {
   seller: User!
 }
 
-<<<<<<< HEAD
 type RemoveBanResponse {
   """Флаг успешного снятия бана"""
   success: Boolean!
@@ -90,25 +85,6 @@ type LoginResponseDto {
 type UpdateAccessTokenResponseDto {
   success: Boolean!
   accessToken: String
-=======
-type LogoutResponse {
-  """Флаг успешного заверешния сессии"""
-  success: Boolean!
-}
-
-type RegisterResponse {
-  success: String
-  user: User
-}
-
-type VerifyResponse {
-  success: Boolean!
-  emailVerified: DateTime
-}
-
-type SendEmailResponse {
-  success: Boolean
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   error: String
 }
 
@@ -118,33 +94,20 @@ type Query {
   userById(id: ID!): User
   me: User
   legitCheck: Boolean!
-<<<<<<< HEAD
   updateAccessToken: UpdateAccessTokenResponseDto!
   validateUser(email: String!, password: String!): User
   getTokenDispatchTime(email: String!): Float
   getTokenTest(email: String!): String
-=======
-  validateUser(email: String!, password: String!): User
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 }
 
 type Mutation {
   updateProfile(input: UpdateProfileInput!): User!
-<<<<<<< HEAD
   removeFromBlacklist(userId: String!): RemoveBanResponse!
   uploadAvatar(image: String): User!
   register(input: RegisterInputDto!): RegisterResponseDto!
   login(email: String!, password: String!): LoginResponseDto!
   verifyEmail(token: String!): VerifyEmailResponse!
   logout: LogoutResponse!
-=======
-  logout: LogoutResponse!
-  refreshSession(userId: String!): LogoutResponse!
-  uploadAvatar(image: String): User!
-  register(input: RegisterInput!): RegisterResponse!
-  verifyEmail(token: String!): VerifyResponse!
-  resendVerificationEmail(email: String!): SendEmailResponse!
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 }
 
 """Входные данные для обновления профиля пользователя"""
@@ -156,7 +119,6 @@ input UpdateProfileInput {
   bio: String
 }
 
-<<<<<<< HEAD
 input RegisterInputDto {
   """Email пользователя"""
   email: String!
@@ -165,10 +127,5 @@ input RegisterInputDto {
   name: String!
 
   """Пароль пользователя"""
-=======
-input RegisterInput {
-  email: String!
-  name: String!
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   password: String!
 }

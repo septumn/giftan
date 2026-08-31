@@ -453,11 +453,7 @@
       ]
     },
     {
-<<<<<<< HEAD
       "id": "bdayCandles",
-=======
-      "id": "bDayCandles",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       "name": "B-Day Candles",
       "models": [
         {
@@ -4681,11 +4677,7 @@
       ]
     },
     {
-<<<<<<< HEAD
       "id": "durovsCaps",
-=======
-      "id": "durovSCaps",
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       "name": "Durov's Caps",
       "models": [
         {

@@ -1,13 +1,7 @@
 'use client'
 
-<<<<<<< HEAD
 import { useState, useEffect, use } from "react"
 import Image from "next/image"
-=======
-import { useState, useEffect } from "react"
-import Image from "next/image"
-import { useSession } from "next-auth/react"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 import styles from "./page.module.css"
 import ImageCropper from "@/components/ui/ImageCropper"
 import { toast } from "sonner"
@@ -15,7 +9,6 @@ import { deleteAvatarAction } from "../../actions/avatar"
 import { useRouter } from "next/navigation"
 import ConfirmModal from "./ConfirmModal"
 import { useAppSelector } from "@/lib/store/hooks"
-<<<<<<< HEAD
 import { UserData } from "@/actions/user-data"
 
 interface UserAvatarProps {
@@ -23,11 +16,6 @@ interface UserAvatarProps {
 }
 
 const UserAvatar = ({ user }: UserAvatarProps) => {
-=======
-
-const UserAvatar = () => {
-  const { data: session, status, update } = useSession()
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   const router = useRouter()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
@@ -36,32 +24,22 @@ const UserAvatar = () => {
   const [optimisticAvatar, setOptimisticAvatar] = useState<string | null>(null)
   const optimisticTitleAvatar = useAppSelector((state) => state.user.optimisticTitleAvatar)
 
-<<<<<<< HEAD
   const initials = (optimisticTitleAvatar || user?.name)
-=======
-  const initials = (optimisticTitleAvatar || session?.user?.name)
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
     ?.split(' ')
     .map(word => word[0])
     .join('')
     .slice(0, 2)
     .toUpperCase() || ''
 
-<<<<<<< HEAD
   console.log(`${process.env.NEXT_PUBLIC_AVATARS_URL}/${user?.image}`)
 
   useEffect(() => {
     if (optimisticAvatar) {
       console.log('123123', optimisticAvatar)
-=======
-  useEffect(() => {
-    if (optimisticAvatar) {
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       setCurrentImage(optimisticAvatar)
       return
     }
 
-<<<<<<< HEAD
     console.log(optimisticAvatar)
 
     if (user?.image?.startsWith('https://googleusercontent.com')) {
@@ -75,26 +53,11 @@ const UserAvatar = () => {
     if (user?.image) {
       setCurrentImage(`${process.env.NEXT_PUBLIC_AVATARS_URL}/${user?.image}`)
       console.log(`${process.env.NEXT_PUBLIC_AVATARS_URL}/${user?.image}`)
-=======
-    if (status === 'loading') return
-
-    if (session?.user.image?.startsWith('https://googleusercontent.com')) {
-      setCurrentImage(session.user.image)
-      return
-    }
-
-    if (session?.user.image) {
-      setCurrentImage(`${process.env.NEXT_PUBLIC_AVATARS_URL}/${session.user.image}`)
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
       return
     }
 
     setCurrentImage(null)
-<<<<<<< HEAD
   }, [optimisticAvatar])
-=======
-  }, [status, optimisticAvatar])
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
   const handleUpload = () => {
     setIsUploading(true)
@@ -110,10 +73,6 @@ const UserAvatar = () => {
       const result = await deleteAvatarAction()
       if (result.success) {
         setOptimisticAvatar(null)
-<<<<<<< HEAD
-=======
-        await update()
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
         router.refresh()
         setIsModalOpen(false)
         setIsConfirmOpen(false)

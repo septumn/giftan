@@ -1,31 +1,22 @@
 'use client'
 
-<<<<<<< HEAD
-=======
-import { useSession } from "next-auth/react"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 import styles from "../../../page.module.css"
 import { useState, useEffect } from "react"
 import { toast } from "sonner"
 import { useAppDispatch } from "@/lib/store/hooks"
 import { updateProfile } from '@/actions/update-profile'
 import { setOptimisticTitleAvatar } from '@/lib/store/slices/userSlice'
-<<<<<<< HEAD
 import { UserData } from "@/actions/user-data"
 
 interface EditProfileProps {
   user: UserData
 }
-=======
-import { useRouter } from "next/navigation"
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
 interface ProfileFormState {
   name: string;
   bio: string;
 }
 
-<<<<<<< HEAD
 const EditProfile = ({ user }: EditProfileProps) => {
   const dispatch = useAppDispatch()
   const [isEditing, setIsEditing] = useState(false)
@@ -33,40 +24,19 @@ const EditProfile = ({ user }: EditProfileProps) => {
   const [profile, setProfile] = useState<ProfileFormState>({
     name: user?.name || '',
     bio: user?.bio || '',
-=======
-const EditProfile = () => {
-  const router = useRouter()
-  const dispatch = useAppDispatch()
-  const { data: session } = useSession()
-  const [isEditing, setIsEditing] = useState(false)
-
-  const [profile, setProfile] = useState<ProfileFormState>({
-    name: session?.user?.name || '',
-    bio: session?.user?.bio || '',
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   });
 
   const [editForm, setEditForm] = useState<ProfileFormState>({ ...profile });
 
   useEffect(() => {
-<<<<<<< HEAD
     if (user?.id) {
       const name = user.name || '';
       const bio = user.bio || '';
-=======
-    if (session?.user) {
-      const name = session.user.name || '';
-      const bio = session.user.bio || '';
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
       setProfile({ name, bio });
       setEditForm({ name, bio });
     }
-<<<<<<< HEAD
   }, [user]);
-=======
-  }, [session]);
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
   const handleSave = async () => {
     if (!editForm.name.trim()) {

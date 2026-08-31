@@ -2,11 +2,7 @@
 
 import { useState, useEffect } from "react"
 
-<<<<<<< HEAD
 const TimesLeft = ({ expiresAt }: { expiresAt: number }) => {
-=======
-const TimesLeft = ({ expiresAt }) => {
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
   const [timeLeft, setTimeLeft] = useState('00:00')
 
   useEffect(() => {
@@ -15,15 +11,10 @@ const TimesLeft = ({ expiresAt }) => {
     if (isNaN(expiryTimestamp)) return
 
     const updateTimer = () => {
-<<<<<<< HEAD
       const now = new Date()
       const timezoneOffsetMs = now.getTimezoneOffset() * 60 * 1000
       const localNow = now.getTime() - timezoneOffsetMs
       const diff = expiryTimestamp - localNow
-=======
-      const now = Date.now()
-      const diff = expiryTimestamp - now
->>>>>>> a425819849e63eecfc5a85d7a32df2390ec1cc78
 
       if (diff <= 0) {
         setTimeLeft('00:00')
