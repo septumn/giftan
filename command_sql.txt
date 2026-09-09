@@ -1,7 +1,0 @@
-WITH deleted_user AS (
-    DELETE FROM "User"
-    WHERE "name" = 'test'
-    RETURNING "email"
-)
-DELETE FROM "ActivateToken" 
-WHERE "email" IN (SELECT "email" FROM deleted_user);
