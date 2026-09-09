@@ -8,9 +8,11 @@
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+/test-results
 .env
 .env*.local
 /.vscode/
 .DS_Store
 *.log
 command.txt
+command_sql.txt
