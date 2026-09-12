@@ -5,6 +5,6 @@ export class LogoutResponse {
   @Field(() => Boolean, { description: 'Флаг успешного завершения сессии' })
   success!: boolean;
 
-  @Field(() => String, { nullable: true, description: 'Текст ошибки, если success равен false' })
+  @Field(() => String, { nullable: true, description: 'Текст ошибки если success === false' })
   error?: string | null;
 }

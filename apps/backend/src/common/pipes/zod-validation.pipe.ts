@@ -1,28 +1,61 @@
-import { CallHandler, ExecutionContext, Injectable, NestInterceptor } from '@nestjs/common'
-import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
-import { z } from 'zod'
+import {
+  PipeTransform,
+  Injectable,
+  ArgumentMetadata,
+  BadRequestException,
+  Logger,
+} from '@nestjs/common';
+import { z } from 'zod';
 
 @Injectable()
-export class ZodSerializerInterceptor implements NestInterceptor {
-  constructor(private schema: z.ZodSchema) { }
+export class ZodValidationPipe implements PipeTransform {
+  private readonly logger = new Logger(ZodValidationPipe.name);
 
-  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
-    return next.handle().pipe(
-      map((data) => {
-        if (data === null || data === undefined) return data
-        
-        try {
-          const safeSchema = this.schema instanceof z.ZodObject 
-            ? this.schema.passthrough() 
-            : this.schema;
+  constructor(private readonly schema: z.ZodSchema) {}
 
-          return safeSchema.parse(data)
-        } catch (error) {
-          console.error('⚠️ [ZOD SERIALIZER INTERCEPTOR WARNING]:', error)
-          return data
-        }
-      })
-    )
+  transform(value: unknown, metadata: ArgumentMetadata) {
+    if (metadata.type === 'custom') {
+      return value;
+    }
+
+    let targetData: any = value;
+
+    if (value && typeof value === 'object' && 'input' in value && (value as any).input) {
+      targetData = (value as any).input;
+    }
+
+    let plainObject: Record<string, any> = {};
+
+    if (targetData && typeof targetData === 'object') {
+      plainObject = { ...targetData };
+
+      for (const key of Object.getOwnPropertyNames(targetData)) {
+        plainObject[key] = targetData[key];
+      }
+    } else {
+      plainObject = targetData;
+    }
+
+    const result = this.schema.safeParse(plainObject);
+
+    if (!result.success) {
+      const formattedErrors = result.error.issues.map((err) => ({
+        field: err.path.join('.'),
+        message: err.message,
+      }));
+
+      this.logger.error(
+        `Validation failed for [${metadata.data || metadata.type}]: ${JSON.stringify(
+          formattedErrors,
+        )} | Received Payload: ${JSON.stringify(plainObject)}`,
+      );
+
+      throw new BadRequestException({
+        message: 'Validation failed',
+        errors: formattedErrors,
+      });
+    }
+
+    return result.data;
   }
 }

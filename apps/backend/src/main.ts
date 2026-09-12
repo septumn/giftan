@@ -28,9 +28,7 @@ async function bootstrap() {
     throw new Error('Критическая ошибка: COOKIE_SECRET не задан в файле .env!')
   }
 
-
-  const fastifyInstance = app.getHttpAdapter().getInstance()
-  await fastifyInstance.register(fastifyCookie, {
+  await app.register(fastifyCookie as any, {
     secret: cookieSecret
   })
 

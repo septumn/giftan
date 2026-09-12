@@ -23,11 +23,12 @@
       "@/*": [
         "./src/*"
       ],
-      "@giftan/contracts": [
-        "../../shared/contracts/src/index.ts"
+      "@giftan/shared": [
+        "../../shared/src/index.ts"
       ],
-      "@giftan/contracts/*": [
-        "../../shared/contracts/src/*"
+      "@giftan/shared/*": [
+        "../../shared/src/*.ts",
+        "../../shared/src/*/index.ts"
       ]
     },
     "plugins": [
@@ -41,7 +42,6 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     ".next/types/**/*.ts",
-    "auth.d.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

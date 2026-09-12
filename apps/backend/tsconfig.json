@@ -5,7 +5,7 @@
     "resolvePackageJsonExports": true,
     "ignoreDeprecations": "6.0",
     "esModuleInterop": true,
-    "isolatedModules": false,
+    "isolatedModules": true,
     "declaration": false,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -33,11 +33,13 @@
       "@/*": [
         "./src/*"
       ],
-      "@giftan/contracts": [
-        "../../shared/contracts/src/index.ts"
+      "@giftan/shared": [
+        "../../shared/src/index.ts"
       ],
-      "@giftan/contracts/*": [
-        "../../shared/contracts/src/*"
+      "@giftan/shared/*": [
+        "../../shared/src/*/index.ts",
+        "../../shared/src/index.ts",
+        "../../shared/src/*"
       ]
     }
   },
@@ -58,7 +60,7 @@
   ],
   "references": [
     {
-      "path": "../../shared/contracts"
+      "path": "../../shared"
     }
   ]
 }

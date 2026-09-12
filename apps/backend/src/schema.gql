@@ -47,13 +47,20 @@ type RemoveBanResponse {
   """Флаг успешного снятия бана"""
   success: Boolean!
 
-  """Текст ошибки, если success равен false"""
+  """Текст ошибки, если success === false"""
   error: String
 }
 
 type RegisterResponseDto {
+  """Successful registration flag"""
   success: Boolean!
+
+  """
+  Данные зарегистрированного пользователя (ID, email и основные профильные данные)
+  """
   user: JSON
+
+  """Текст ошибки, если success === false"""
   error: String
 }
 
@@ -62,9 +69,25 @@ The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://
 """
 scalar JSON
 
-type VerifyEmailResponse {
+type LoginResponseDto {
+  """Флаг успешного завершения сессии"""
   success: Boolean!
+
+  """Текст ошибки если success === false"""
+  error: String
+
+  """Токен доступа"""
+  accessToken: String
+}
+
+type VerifyEmailResponse {
+  """Флаг успешной верификации email"""
+  success: Boolean!
+
+  """Дата успешной верификации"""
   emailVerified: String
+
+  """Текст ошибки, если success === false"""
   error: String
 }
 
@@ -72,20 +95,19 @@ type LogoutResponse {
   """Флаг успешного завершения сессии"""
   success: Boolean!
 
-  """Текст ошибки, если success равен false"""
+  """Текст ошибки если success === false"""
   error: String
-}
-
-type LoginResponseDto {
-  success: Boolean!
-  error: String
-  accessToken: String
 }
 
 type UpdateAccessTokenResponseDto {
+  """Флаг успешного обновления токен доступа"""
   success: Boolean!
+
+  """Токен доступа"""
   accessToken: String
-  error: String
+
+  """Код ошибки"""
+  errorCode: String
 }
 
 type Query {
@@ -95,9 +117,17 @@ type Query {
   me: User
   legitCheck: Boolean!
   updateAccessToken: UpdateAccessTokenResponseDto!
-  validateUser(email: String!, password: String!): User
+  validateUser(input: LoginInputDto!): User
   getTokenDispatchTime(email: String!): Float
   getTokenTest(email: String!): String
+}
+
+input LoginInputDto {
+  """User Email"""
+  email: String!
+
+  """User password"""
+  password: String!
 }
 
 type Mutation {
@@ -105,7 +135,7 @@ type Mutation {
   removeFromBlacklist(userId: String!): RemoveBanResponse!
   uploadAvatar(image: String): User!
   register(input: RegisterInputDto!): RegisterResponseDto!
-  login(email: String!, password: String!): LoginResponseDto!
+  login(input: LoginInputDto!): LoginResponseDto!
   verifyEmail(token: String!): VerifyEmailResponse!
   logout: LogoutResponse!
 }
@@ -120,12 +150,12 @@ input UpdateProfileInput {
 }
 
 input RegisterInputDto {
-  """Email пользователя"""
+  """User Email"""
   email: String!
 
-  """Имя пользователя"""
+  """User name"""
   name: String!
 
-  """Пароль пользователя"""
+  """User password"""
   password: String!
 }

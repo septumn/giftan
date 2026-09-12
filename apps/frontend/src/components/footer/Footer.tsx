@@ -32,7 +32,7 @@ const Footer = () => {
           <div className={styles.footerSection}>
             <h3>Контакты</h3>
             <p><i className="fas fa-phone"></i> +7 (999) 123-45-67</p>
-            <p><i className="fas fa-envelope"></i> info@gifton.ru</p>
+            <p><i className="fas fa-envelope"></i> info@giftan.ru</p>
             <p><i className="fab fa-telegram"></i> @giftan_bot</p>
           </div>
         </div>

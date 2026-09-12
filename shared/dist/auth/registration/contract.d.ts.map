@@ -1,0 +1,1 @@
+{"version":3,"file":"contract.d.ts","sourceRoot":"","sources":["../../../src/auth/registration/contract.ts"],"names":[],"mappings":"AAAA,OAAO,CAAC,MAAM,KAAK,CAAA;AAGnB,eAAO,MAAM,uBAAuB;;;;iBAkBlC,CAAA;AAEF,eAAO,MAAM,0BAA0B;;;iBAAwB,CAAA;AAE/D,MAAM,MAAM,iBAAiB,GAAG,CAAC,CAAC,KAAK,CAAC,OAAO,uBAAuB,CAAC,CAAA;AACvE,MAAM,MAAM,oBAAoB,GAAG,CAAC,CAAC,KAAK,CAAC,OAAO,0BAA0B,CAAC,CAAA"}

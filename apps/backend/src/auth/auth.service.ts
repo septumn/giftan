@@ -1,4 +1,5 @@
-import { Injectable, Inject, BadRequestException, InternalServerErrorException } from '@nestjs/common'
+import { Injectable, Inject, InternalServerErrorException, NotFoundException } from '@nestjs/common'
+import { GraphQLError } from 'graphql'
 import { SignJWT } from 'jose'
 import * as bcrypt from 'bcrypt'
 import { DRIZZLE, type DrizzleDB } from "../db/db.module"
@@ -16,6 +17,12 @@ import { LogoutResponse } from './dto/responses/logout.response'
 import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '@/users/users.service'
 import Redis from 'ioredis'
+
+interface JwtPayloadUser {
+  id: string
+  email: string | null
+  role: string | UserRole
+}
 
 @Injectable()
 export class AuthService {
@@ -43,15 +50,32 @@ export class AuthService {
       const isEmailConflict = existing.some(u => u.email === cleanEmail)
 
       if (isNameConflict && isEmailConflict) {
-        throw new BadRequestException("Такое имя и Email уже заняты")
+        throw new GraphQLError('Name and email already exist', {
+          extensions: {
+            code: 'NAME_AND_EMAIL_TAKEN',
+            field: ['name', 'email'],
+            action: 'REGISTRATION',
+          },
+        })
       }
 
       if (isNameConflict) {
-        throw new BadRequestException("Пользователь с таким именем уже существует")
+        throw new GraphQLError('A user with that name already exists', {
+          extensions: {
+            code: 'NAME_ALREADY_EXISTS',
+            field: 'name',
+            action: 'REGISTRATION',
+          },
+        })
       }
-
       if (isEmailConflict) {
-        throw new BadRequestException("Пользователь с таким Email уже существует")
+        throw new GraphQLError('A user with this email already exists', {
+          extensions: {
+            code: 'EMAIL_ALREADY_EXISTS',
+            field: 'email',
+            action: 'REGISTRATION',
+          },
+        })
       }
     }
 
@@ -82,37 +106,35 @@ export class AuthService {
 
       await this.mailService.sendVerificationEmail(cleanEmail, confirmLink)
 
-      if (newUser) {
-        delete (newUser as any).password
-      }
+      const { password: _, ...userWithoutPassword } = newUser
 
       return {
         success: true,
         user: {
-          ...newUser,
-          emailVerified: newUser.emailVerified || null,
-          role: newUser.role as any as UserRole
+          ...userWithoutPassword,
+          emailVerified: userWithoutPassword.emailVerified || null,
+          role: userWithoutPassword.role as UserRole
         }
       }
     } catch (error) {
-      console.error("Ошибка при регистрации:", error)
-      throw new InternalServerErrorException("Что-то пошло не так при сохранении данных")
+      console.error("Registration error:", error)
+      throw new InternalServerErrorException("Something went wrong while saving the data.")
     }
   }
 
   async login(dto: LoginInputDto): Promise<LoginResponseDto> {
     if (!dto || !dto.email) {
-      return { success: false, error: 'Внутренняя ошибка: данные не дошли до сервиса' };
+      return { success: false, error: 'Internal error: data did not reach the service' };
     }
 
     const user = await this.validateUser(dto.email.trim().toLowerCase(), dto.password);
 
     if (!user) {
-      return { success: false, error: 'Неверный Email или пароль' };
+      return { success: false, error: 'Invalid email or password' };
     }
 
     if (!user.emailVerified) {
-      return { success: false, error: 'Пожалуйста, подтвердите ваш Email перед входом' };
+      return { success: false, error: 'Please confirm your email before logging in' };
     }
 
     const userBlacklisted = await this.redis.get(`blacklist:${user.id}`);
@@ -139,32 +161,53 @@ export class AuthService {
 
     if (!match) return null
 
-    delete (user as any).password
-    return user
+    const { password: _, ...result } = user
+    return result
   }
 
-  async generateAccessToken(user: any) {
+  async generateAccessToken(userOrId: JwtPayloadUser | string) {
     const secretString = process.env.JWT_SECRET;
     if (!secretString) {
-      throw new InternalServerErrorException("JWT_SECRET не задан в переменных окружения бэкенда");
+      throw new InternalServerErrorException("JWT_SECRET is not set in the backend environment variables");
+    }
+
+    let targetUser: JwtPayloadUser;
+
+    if (typeof userOrId === 'string') {
+      const [foundUser] = await this.db
+        .select({ id: users.id, email: users.email, role: users.role })
+        .from(users)
+        .where(eq(users.id, userOrId))
+        .limit(1);
+
+      if (!foundUser) {
+        throw new NotFoundException('User not found');
+      }
+      targetUser = foundUser;
+    } else {
+      targetUser = userOrId;
+    }
+
+    if (!targetUser.email) {
+      throw new InternalServerErrorException("User does not have a valid email address for JWT");
     }
 
     const secret = Buffer.from(secretString, 'utf-8');
 
     try {
       const accessToken = await new SignJWT({
-        email: user.email,
-        role: user.role
+        email: targetUser.email,
+        role: targetUser.role
       })
         .setProtectedHeader({ alg: 'HS256' })
-        .setSubject(user.id)
+        .setSubject(targetUser.id)
         .setIssuedAt()
         .setExpirationTime('14d')
         .sign(secret);
 
       return { accessToken };
     } catch (jwtError) {
-      console.error('==> [SignJWT] Ошибка внутри библиотеки jose:', jwtError);
+      console.error('==> [SignJWT] Error inside the jose library:', jwtError);
       throw jwtError;
     }
   }
@@ -177,12 +220,16 @@ export class AuthService {
       .limit(1)
 
     if (!existingToken) {
-      throw new BadRequestException("Токен не найден или уже был использован")
+      throw new GraphQLError('Token not found or already used', {
+        extensions: { code: 'INVALID_OR_EXPIRED_TOKEN' },
+      })
     }
 
     if (new Date(existingToken.expires) < new Date()) {
       await this.db.delete(activateTokens).where(eq(activateTokens.token, token))
-      throw new BadRequestException("Срок действия токена истёк")
+      throw new GraphQLError('The token has expired', {
+        extensions: { code: 'TOKEN_EXPIRED' },
+      })
     }
 
     try {
@@ -198,22 +245,24 @@ export class AuthService {
       })
 
       if (!updatedUser) {
-        throw new BadRequestException("Пользователь, привязанный к этому токену, не найден")
+        throw new GraphQLError('The user associated with this token was not found', {
+          extensions: { code: 'USER_NOT_FOUND' },
+        })
       }
 
       return {
         success: true,
-        emailVerified: updatedUser.emailVerified ? updatedUser.emailVerified.toString() : null
+        emailVerified: updatedUser.emailVerified ? updatedUser.emailVerified.toISOString() : null
       }
     } catch (error) {
-      if (error instanceof BadRequestException) throw error
-      console.error("Ошибка верификации токена:", error)
-      throw new InternalServerErrorException("Не удалось верифицировать email")
+      if (error instanceof GraphQLError) throw error
+      console.error("Token verification error:", error)
+      throw new InternalServerErrorException("Failed to verify email")
     }
   }
 
   async getTokenDispatchTime(email: string): Promise<number | null> {
-    const cleanEmail = email.trim().replace(' ', '').toLowerCase()
+    const cleanEmail = email.trim().replaceAll(' ', '').toLowerCase()
 
     const dispatchTime = await this.db
       .select()
@@ -223,7 +272,7 @@ export class AuthService {
 
     if (dispatchTime.length === 0) return null
 
-    return Number(dispatchTime[0].expires)
+    return new Date(dispatchTime[0].expires).getTime()
   }
 
   async logout(userId: string, reply: any): Promise<LogoutResponse> {

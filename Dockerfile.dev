@@ -6,6 +6,7 @@ WORKDIR /app
 RUN npm i -g @nestjs/cli
 
 COPY package.json package-lock.json ./
+COPY shared/package.json ./shared/
 COPY apps/frontend/package.json ./apps/frontend/
 COPY apps/backend/package.json ./apps/backend/
 
@@ -13,5 +14,9 @@ RUN npm ci --legacy-peer-deps
 
 COPY . .
 
+RUN npm run build --prefix shared
+
 EXPOSE 3000
 EXPOSE 3001
+
+CMD ["npm", "run", "start:dev"]

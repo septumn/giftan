@@ -1,55 +1,64 @@
-import { Resolver, Mutation, Args, Query, Context } from '@nestjs/graphql'
-import { UseInterceptors } from '@nestjs/common'
-import { ZodSerializerInterceptor } from '@/common/interceptors/zod-serializer.interceptor'
-import { AuthService } from './auth.service'
-import { Public } from '@/common/decorators/public.decorator'
-import { UserType } from '@/users/dto/user.type'
-import { RegisterResponseDto } from './dto/responses/register.response'
-import { RegisterInputDto } from './dto/inputs/register.input'
-import { VerifyEmailResponse } from './dto/responses/verify-email.response'
-import { LoginInputSchema, LoginResponseSchema, RegisterResponseSchema } from '@giftan/contracts'
-import { LogoutResponse } from './dto/responses/logout.response'
-import { LoginResponseDto } from './dto/responses/login.response'
-import { SetAccessTokenInterceptor } from './set-access-token.interceptor'
-import { UpdateAccessTokenResponseDto } from './dto/responses/update-access-token.response'
-import { CurrentUser } from '@/common/decorators/current-user.decorator'
-import { CurrentUserPayload } from '@/common/interfaces/current-user.interface'
-import { TokenType } from '@/types/token'
+import { Resolver, Mutation, Query, Args, Context } from '@nestjs/graphql';
+import { UseInterceptors } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { Public } from '@/common/decorators/public.decorator';
+import { CurrentUser } from '@/common/decorators/current-user.decorator';
+import { ZodValidationPipe } from '@/common/pipes/zod-validation.pipe';
+import { ZodSerializerInterceptor } from '@/common/interceptors/zod-serializer.interceptor';
+import { SetAccessTokenInterceptor } from './set-access-token.interceptor';
+import {
+  RegistrationInputSchema,
+  RegistrationResponseSchema
+} from '@giftan/shared/auth/registration/contract';
+import {
+  LoginInputSchema,
+  LoginResponseSchema
+} from '@giftan/shared/auth/login/contract';
+import { RegisterInputDto } from './dto/inputs/register.input';
+import { LoginInputDto } from './dto/inputs/login.input';
+import { RegisterResponseDto } from './dto/responses/register.response';
+import { LoginResponseDto } from './dto/responses/login.response';
+import { VerifyEmailResponse } from './dto/responses/verify-email.response';
+import { LogoutResponse } from './dto/responses/logout.response';
+import { UpdateAccessTokenResponseDto } from './dto/responses/update-access-token.response';
+import { UserType } from '@/users/dto/user.type';
+import { type CurrentUserPayload } from '@/common/interfaces/current-user.interface';
+import { UserRole } from '@/common/enums/role.enum';
+import { UsePipes } from '@nestjs/common';
 
 @Resolver()
 export class AuthResolver {
-  constructor(
-    private readonly authService: AuthService
-  ) { }
+  constructor(private readonly authService: AuthService) { }
 
   @Mutation(() => RegisterResponseDto, { name: 'register' })
   @Public()
-  @UseInterceptors(new ZodSerializerInterceptor(RegisterResponseSchema))
+  @UseInterceptors(new ZodSerializerInterceptor(RegistrationResponseSchema))
+  @UsePipes(new ZodValidationPipe(RegistrationInputSchema))
   async register(
-    @Args('input', { type: () => RegisterInputDto, nullable: false }) input: any
+    @Args('input', { type: () => RegisterInputDto }) input: RegisterInputDto,
   ): Promise<RegisterResponseDto> {
-    const validatedData = {
-      name: input.name,
-      email: input.email,
-      password: input.password
-    };
-
-    return this.authService.registerCredentials(validatedData)
+    return this.authService.registerCredentials(input);
   }
 
   @Mutation(() => LoginResponseDto, { name: 'login' })
   @Public()
+  @UseInterceptors(
+    new ZodSerializerInterceptor(LoginResponseSchema),
+    SetAccessTokenInterceptor,
+  )
+  @UsePipes(new ZodValidationPipe(LoginInputSchema))
   async login(
-    @Args('email') email: string,
-    @Args('password') password: string
+    @Args('input', { type: () => LoginInputDto }) input: LoginInputDto,
   ): Promise<LoginResponseDto> {
+    return this.authService.login(input);
+  }
 
-    const credentials = { email, password };
-    LoginInputSchema.parse(credentials);
-
-    const result = await this.authService.login(credentials);
-
-    if (!result.success) return result as any;
+  @Query(() => UpdateAccessTokenResponseDto, { name: 'updateAccessToken' })
+  @UseInterceptors(SetAccessTokenInterceptor)
+  async updateAccessToken(
+    @CurrentUser() currentUser: CurrentUserPayload,
+  ): Promise<UpdateAccessTokenResponseDto> {
+    const result = await this.authService.generateAccessToken(currentUser.id);
 
     return {
       success: true,
@@ -57,51 +66,43 @@ export class AuthResolver {
     };
   }
 
-  @Query(() => UpdateAccessTokenResponseDto, { name: 'updateAccessToken' })
-  @UseInterceptors(SetAccessTokenInterceptor)
-  async updateAccessToken(@CurrentUser() currentUser: CurrentUserPayload) {
-    return this.authService.generateAccessToken(currentUser.id)
-  }
-
   @Query(() => UserType, { name: 'validateUser', nullable: true })
   @Public()
   async validateUser(
-    @Args('email', { type: () => String }) email: string,
-    @Args('password', { type: () => String }) password: string
+    @Args('input', { type: () => LoginInputDto }, new ZodValidationPipe(LoginInputSchema))
+    input: LoginInputDto,
   ): Promise<UserType | null> {
-    const user = await this.authService.validateUser(email, password);
+    const user = await this.authService.validateUser(input.email, input.password);
     if (!user) return null;
 
     return {
       ...user,
-      emailVerified: user.emailVerified || null,
-      role: user.role as any
+      emailVerified: user.emailVerified ?? null,
+      role: user.role as UserRole,
     };
   }
 
   @Mutation(() => VerifyEmailResponse, { name: 'verifyEmail' })
   @Public()
   async verifyEmail(
-    @Args('token', { type: () => String }) token: string
+    @Args('token', { type: () => String }) token: string,
   ): Promise<VerifyEmailResponse> {
-    return this.authService.verifyEmail(token)
+    return this.authService.verifyEmail(token);
   }
 
   @Query(() => Number, { name: 'getTokenDispatchTime', nullable: true })
   @Public()
   async getTokenDispatchTime(
-    @Args('email', { type: () => String }) email: string
+    @Args('email', { type: () => String }) email: string,
   ): Promise<number | null> {
-    return this.authService.getTokenDispatchTime(email)
+    return this.authService.getTokenDispatchTime(email);
   }
 
   @Mutation(() => LogoutResponse, { name: 'logout' })
   async logout(
-    @CurrentUser() user: TokenType,
-    @Context() ctx: any
+    @CurrentUser() user: CurrentUserPayload,
+    @Context() ctx: { reply: any },
   ): Promise<LogoutResponse> {
-    const reply = ctx?.reply 
-
-    return this.authService.logout(user.id, reply);
+    return this.authService.logout(user.id, ctx.reply);
   }
 }

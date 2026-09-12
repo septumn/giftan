@@ -2,7 +2,6 @@
 
 import { revalidatePath } from 'next/cache'
 import { minioClient } from '@/lib/minio'
-import { auth, unstable_update } from '@/auth'
 import { getClient } from '@/lib/apollo/client'
 import { v4 as uuidv4 } from 'uuid'
 import { UPLOAD_AVATAR_MUTATION } from '@/graphql/user/mutations/upload-avatar'
@@ -43,7 +42,6 @@ export async function uploadAvatarAction(formData: FormData) {
       variables: { image: fileName }
     })
 
-    await unstable_update({ user: { image: fileName } })
     revalidatePath('/', 'layout')
     return { success: true, fileName }
   } catch (error) {
@@ -73,7 +71,6 @@ export async function deleteAvatarAction() {
       variables: { image: null }
     })
 
-    await unstable_update({ user: { image: null } })
     revalidatePath('/', 'layout')
     return { success: true }
   } catch (error) {

@@ -3,7 +3,7 @@
   "private": true,
   "workspaces": [
     "apps/*",
-    "shared/*"
+    "shared"
   ],
   "scripts": {
     "dev:frontend": "npm run dev -w @giftan/frontend",
@@ -11,7 +11,7 @@
     "db:generate": "npm run generate -w @giftan/backend",
     "db:migrate": "npm run migrate -w @giftan/backend",
     "db:push": "npm run push -w @giftan/backend",
-    "contracts:build": "tsc -b shared/contracts"
+    "shared:build": "npm run build -w @gifan/shared"
   },
   "devDependencies": {
     "chokidar": "^5.0.0",

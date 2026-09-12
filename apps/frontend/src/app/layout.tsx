@@ -5,7 +5,6 @@ import Toaster from "../components/ui/Toaster";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import StoreProvider from "./storeProvider";
-import AuthProvider from "@/components/AuthProvider";
 import { ApolloClientProvider } from "@/providers/apollo-provider";
 
 const rubik = Rubik({
@@ -35,14 +34,12 @@ export default async function RootLayout({
         className={`${rubik.variable} font-sans`}
       >
         <ApolloClientProvider>
-          <AuthProvider>
             <StoreProvider>
               <Header />
               {children}
               <Toaster />
               <Footer />
             </StoreProvider>
-          </AuthProvider>
         </ApolloClientProvider>
       </body>
     </html>

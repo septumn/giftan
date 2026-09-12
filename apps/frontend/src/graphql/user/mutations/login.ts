@@ -1,8 +1,9 @@
 import { gql } from '@apollo/client'
+import { LoginInput } from '@giftan/shared/auth/login/contract'
 
 export const LOGIN_MUTATION = gql`
-  mutation Login($email: String!, $password: String!) {
-    login(email: $email, password: $password) {
+  mutation Login($input: LoginInputDto!) {
+    login(input: $input) {
       success
       error
       accessToken
@@ -11,8 +12,7 @@ export const LOGIN_MUTATION = gql`
 `
 
 export interface LoginMutationVariables {
-  email: string
-  password?: string
+  input: LoginInput
 }
 
 export interface LoginMutationResponse {

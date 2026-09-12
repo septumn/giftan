@@ -1,11 +1,11 @@
 import { InputType, Field } from '@nestjs/graphql'
-import { LoginInput } from '@giftan/contracts'
+import { LoginInput } from '@giftan/shared/auth/login/contract'
 
 @InputType()
 export class LoginInputDto implements LoginInput {
-  @Field(() => String)
+  @Field(() => String, { description: 'User Email' })
   email!: string;
 
-  @Field(() => String)
+  @Field(() => String, { description: 'User password' })
   password!: string;
 }

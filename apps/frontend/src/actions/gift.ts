@@ -3,7 +3,6 @@
 import { db } from "@/db"
 import { gifts } from "@/db/schema"
 import { eq } from "drizzle-orm"
-import { auth } from "@/auth"
 import { revalidatePath } from "next/cache"
 
 export async function createGift(data: any) {

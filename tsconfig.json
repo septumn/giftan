@@ -12,8 +12,12 @@
       "@backend/*": [
         "apps/backend/src/*"
       ],
-      "@gifan/contracts/*": [
-        "shared/contracts"
+      "@giftan/shared": [
+        "shared/dist/index.d.ts"
+      ],
+      "@giftan/shared/*": [
+        "shared/dist/*/index.d.ts",
+        "shared/dist/*.d.ts"
       ]
     }
   },
@@ -35,7 +39,7 @@
       "path": "./apps/backend"
     },
     {
-      "path": "./shared/contracts"
+      "path": "./shared"
     }
   ]
 }
