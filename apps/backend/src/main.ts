@@ -4,18 +4,14 @@ import fastifyCookie from "@fastify/cookie"
 import { AppModule } from "./app.module"
 import { ValidationPipe } from "@nestjs/common"
 import 'tsconfig-paths/register'
+import { ZodValidationPipe } from "nestjs-zod"
 
 async function bootstrap() {
   const adapter = new FastifyAdapter()
 
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter)
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-    })
-  )
+  app.useGlobalPipes(new ZodValidationPipe)
 
   app.enableCors({
     origin: 'http://localhost:3000',
@@ -32,7 +28,7 @@ async function bootstrap() {
     secret: cookieSecret
   })
 
-  const port = process.env.PORT ?? 3001
+  const port = process.env.PORT ?? 4000
   await app.listen(port, '0.0.0.0')
   console.log(`[NestJS] Бэкэнд успешно запущен на порту: ${port}`)
 }

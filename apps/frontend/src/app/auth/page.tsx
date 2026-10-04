@@ -2,7 +2,6 @@
 
 import { login, registerUser } from "@/actions/auth"
 import { useEffect, useState, useRef } from "react"
-import { signIn } from "next-auth/react"
 import styles from "./page.module.css"
 import { toast } from "sonner"
 import { loginSchema } from "@/lib/schemas/validation/forms/login"

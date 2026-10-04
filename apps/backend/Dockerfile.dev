@@ -17,4 +17,4 @@ RUN npm config set fetch-retry-maxtimeout 120000 && \
 
 COPY . .
 
-EXPOSE 3001
+EXPOSE 4000

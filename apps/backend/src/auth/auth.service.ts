@@ -8,15 +8,14 @@ import { eq, or } from "drizzle-orm"
 import { v4 as uuidv4 } from "uuid"
 import { MailService } from '@/mail/mail.service'
 import { RegisterInputDto } from './dto/inputs/register.input'
-import { RegisterResponseDto } from './dto/responses/register.response'
 import { VerifyEmailResponse } from './dto/responses/verify-email.response'
-import { UserRole } from '../common/enums/role.enum'
+import { UserRole } from '@giftan/shared/common/enums/user-role.enum'
 import { LoginInputDto } from './dto/inputs/login.input'
 import { LoginResponseDto } from './dto/responses/login.response'
 import { LogoutResponse } from './dto/responses/logout.response'
-import { JwtService } from '@nestjs/jwt'
 import { UsersService } from '@/users/users.service'
 import Redis from 'ioredis'
+import { RegistrationResponse } from '@giftan/shared/auth/registration/contract'
 
 interface JwtPayloadUser {
   id: string
@@ -30,11 +29,10 @@ export class AuthService {
     @Inject(DRIZZLE) private readonly db: DrizzleDB,
     @Inject('REDIS_CLIENT') private readonly redis: Redis,
     private readonly mailService: MailService,
-    private readonly jwtService: JwtService,
     private readonly usersService: UsersService
   ) { }
 
-  async registerCredentials({ name, email, password }: RegisterInputDto): Promise<RegisterResponseDto> {
+  async registerCredentials({ name, email, password }: RegisterInputDto): Promise<RegistrationResponse> {
     const cleanName = name.trim().replaceAll(' ', '')
     const cleanEmail = email.trim().replaceAll(' ', '').toLowerCase()
     const cleanPassword = password.trim()
@@ -50,32 +48,32 @@ export class AuthService {
       const isEmailConflict = existing.some(u => u.email === cleanEmail)
 
       if (isNameConflict && isEmailConflict) {
-        throw new GraphQLError('Name and email already exist', {
-          extensions: {
-            code: 'NAME_AND_EMAIL_TAKEN',
-            field: ['name', 'email'],
-            action: 'REGISTRATION',
-          },
-        })
+        return {
+          success: false,
+          error: {
+            code: 'NAME_AND_EMAIL_ALREADY_EXIST',
+            message: 'Пользователь с таким именем и email уже существует'
+          }
+        }
       }
 
       if (isNameConflict) {
-        throw new GraphQLError('A user with that name already exists', {
-          extensions: {
+        return {
+          success: false,
+          error: {
             code: 'NAME_ALREADY_EXISTS',
-            field: 'name',
-            action: 'REGISTRATION',
-          },
-        })
+            message: 'Пользователь с таким именем уже существует'
+          }
+        }
       }
       if (isEmailConflict) {
-        throw new GraphQLError('A user with this email already exists', {
-          extensions: {
+        return {
+          success: false,
+          error: {
             code: 'EMAIL_ALREADY_EXISTS',
-            field: 'email',
-            action: 'REGISTRATION',
-          },
-        })
+            message: 'Пользователь с таким email уже существует'
+          }
+        }
       }
     }
 
@@ -106,14 +104,14 @@ export class AuthService {
 
       await this.mailService.sendVerificationEmail(cleanEmail, confirmLink)
 
-      const { password: _, ...userWithoutPassword } = newUser
-
       return {
         success: true,
         user: {
-          ...userWithoutPassword,
-          emailVerified: userWithoutPassword.emailVerified || null,
-          role: userWithoutPassword.role as UserRole
+          id: newUser.id,
+          name: newUser.name as string,
+          email: newUser.email as string,
+          emailVerified: newUser.emailVerified as Date,
+          role: newUser.role as UserRole
         }
       }
     } catch (error) {

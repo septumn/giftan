@@ -6,7 +6,7 @@ export default async function Home() {
   return (
     <main>
       <Promo />
-      <NewGifts />
+      {/* <NewGifts /> */}
       <TelegramSection />
     </main>
   )

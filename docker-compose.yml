@@ -15,8 +15,8 @@ services:
     environment:
       - NEXT_DISABLE_SWC_WASM=0
       - NEXT_PRIVATE_LOCAL_WEBPACK=true 
-      - NEXT_PUBLIC_API_URL=http://localhost:3001/graphql
-      - NEST_GRAPHQL_URL=http://backend:3001/graphql
+      - NEXT_PUBLIC_API_URL=http://localhost:4000/graphql
+      - NEST_GRAPHQL_URL=http://backend:4000/graphql
       - DATABASE_URL=postgresql://giftan_user:giftan_password@db:5432/giftan_db
       - MINIO_ENDPOINT=minio
       - MINIO_PORT=9000
@@ -41,7 +41,7 @@ services:
       context: .
       dockerfile: ./apps/backend/Dockerfile.dev
     ports:
-      - "3001:3001"
+      - "4000:4000"
     volumes:
       - .:/app
       - /app/node_modules
@@ -84,7 +84,7 @@ services:
       retries: 5
 
   minio:
-    image: minio/minio:latest
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
     restart: always
     ports:
       - "9000:9000"
@@ -97,18 +97,14 @@ services:
       - ./minio_data:/data
 
   minio-init:
-    image: minio/mc
+    image: pgsty/minio:RELEASE.2026-08-04T00-00-00Z
+    entrypoint: ["/usr/bin/mc"]
     depends_on:
       - minio
-    entrypoint: >
-      /bin/sh -c "
-      until (/usr/bin/mc alias set myminio http://minio:9000 giftan_admin giftan_secure_password); do 
-        echo 'Ожидание запуска MinIO...'; 
-        sleep 1; 
-      done;
-      /usr/bin/mc mb --ignore-existing myminio/avatars;
-      /usr/bin/mc anonymous set download myminio/avatars;
-      echo 'Бакет avatars успешно создан и сделан публичным!';
+    command: >
+      sh -c "
+      mc alias set local http://minio:9000 minioadmin minioadmin;
+      mc mb --ignore-existing local/avatars;
       exit 0;
       "
 

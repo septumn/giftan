@@ -26,6 +26,7 @@ import {
   VerifyEmailMutationResult,
   VerifyEmailMutationVariables,
 } from "@/graphql/user/mutations/verify-email"
+import { RegistrationInputSchema } from "@giftan/shared/auth/registration/contract"
 
 interface ActionResponse {
   success: boolean
@@ -49,8 +50,8 @@ export async function registerUser(formData: FormData): Promise<ActionResponse> 
       mutation: REGISTER_MUTATION,
       variables: {
         input: {
-          name: finalName,
           email: finalEmail,
+          name: finalName,
           password: finalPassword
         }
       }
@@ -68,9 +69,9 @@ export async function registerUser(formData: FormData): Promise<ActionResponse> 
 
   } catch (error: any) {
     console.error("Ошибка при обращении к Nest.js GraphQL (register):", error)
-    return { 
-      success: false, 
-      error: error?.graphQLErrors?.[0]?.message || error?.message || "Не удалось связаться с сервером регистрации" 
+    return {
+      success: false,
+      error: error?.graphQLErrors?.[0]?.message || error?.message || "Не удалось связаться с сервером регистрации"
     }
   }
 }
@@ -122,9 +123,9 @@ export async function login({ email, password }: LoginInput): Promise<LoginRespo
 
   } catch (error: any) {
     console.error('Критическая ошибка при входе (login):', error)
-    return { 
-      success: false, 
-      error: error?.graphQLErrors?.[0]?.message || error?.message || 'Сетевая ошибка запроса' 
+    return {
+      success: false,
+      error: error?.graphQLErrors?.[0]?.message || error?.message || 'Сетевая ошибка запроса'
     }
   }
 }
@@ -153,9 +154,9 @@ export async function sendMailAgain(email: string): Promise<ResendEmailMutationR
 
   } catch (error: any) {
     console.error("Ошибка повторной отправки письма:", error)
-    return { 
-      success: false, 
-      error: error?.graphQLErrors?.[0]?.message || "Не удалось отправить письмо. Попробуйте позже." 
+    return {
+      success: false,
+      error: error?.graphQLErrors?.[0]?.message || "Не удалось отправить письмо. Попробуйте позже."
     }
   }
 }
@@ -186,10 +187,10 @@ export async function verifyEmailToken(token: string): Promise<VerifyEmailMutati
 
   } catch (error: any) {
     console.error("Ошибка при верификации через бэкенд:", error)
-    return { 
-      success: false, 
-      emailVerified: null, 
-      error: error?.graphQLErrors?.[0]?.message || "Не удалось связаться с сервером верификации" 
+    return {
+      success: false,
+      emailVerified: null,
+      error: error?.graphQLErrors?.[0]?.message || "Не удалось связаться с сервером верификации"
     }
   }
 }

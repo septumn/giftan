@@ -22,6 +22,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+"""Роли пользователей"""
 enum UserRole {
   USER
   MODERATOR
@@ -51,23 +52,25 @@ type RemoveBanResponse {
   error: String
 }
 
-type RegisterResponseDto {
-  """Successful registration flag"""
-  success: Boolean!
+type RegisteredUserDto {
+  id: String!
+  name: String!
+  email: String!
 
-  """
-  Данные зарегистрированного пользователя (ID, email и основные профильные данные)
-  """
-  user: JSON
+  """Дата верификации почты"""
+  emailVerified: DateTime
 
-  """Текст ошибки, если success === false"""
-  error: String
+  """Роль пользователя"""
+  role: UserRole!
 }
 
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
+type RegistrationErrorDetailsDto {
+  """Код ошибки (например, EMAIL_ALREADY_EXISTS)"""
+  code: String!
+
+  """Сообщение об ошибке для пользователя"""
+  message: String!
+}
 
 type LoginResponseDto {
   """Флаг успешного завершения сессии"""
@@ -134,7 +137,7 @@ type Mutation {
   updateProfile(input: UpdateProfileInput!): User!
   removeFromBlacklist(userId: String!): RemoveBanResponse!
   uploadAvatar(image: String): User!
-  register(input: RegisterInputDto!): RegisterResponseDto!
+  register(input: RegisterInputDto!): RegistrationResponseResult!
   login(input: LoginInputDto!): LoginResponseDto!
   verifyEmail(token: String!): VerifyEmailResponse!
   logout: LogoutResponse!
@@ -147,6 +150,24 @@ input UpdateProfileInput {
 
   """Краткая биография (о себе)"""
   bio: String
+}
+
+union RegistrationResponseResult = RegistrationSuccessResponseDto | RegistrationErrorResponseDto
+
+type RegistrationSuccessResponseDto {
+  """Дискриминатор успеха (всегда true)"""
+  success: Boolean!
+
+  """Данные зарегистрированного пользователя"""
+  user: RegisteredUserDto!
+}
+
+type RegistrationErrorResponseDto {
+  """Дискриминатор успеха (всегда false)"""
+  success: Boolean!
+
+  """Объект ошибки с кодом и понятным сообщением для фронтенда"""
+  error: RegistrationErrorDetailsDto!
 }
 
 input RegisterInputDto {

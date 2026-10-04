@@ -1,8 +1,11 @@
 import { InputType, Field } from '@nestjs/graphql'
-import { RegistrationInput } from '@giftan/shared/auth/registration/contract'
+import { createZodDto } from 'nestjs-zod'
+import { RegistrationInputSchema } from '@giftan/shared/auth/registration/contract';
+
+export class BaseRegisterDto extends createZodDto(RegistrationInputSchema) {}
 
 @InputType()
-export class RegisterInputDto implements RegistrationInput {
+export class RegisterInputDto extends BaseRegisterDto {
   @Field(() => String, { description: 'User Email' })
   email!: string;
 

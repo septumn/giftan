@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql'
-import { UserRole } from '../../common/enums/role.enum'
+import { UserRole } from '@giftan/shared/common/enums/user-role.enum';
 import { GiftType } from '../../gifts/dto/gift.type'
 import { InferSelectModel } from 'drizzle-orm'
 import { users } from 'src/db/schema';

@@ -12,12 +12,8 @@
       "@backend/*": [
         "apps/backend/src/*"
       ],
-      "@giftan/shared": [
-        "shared/dist/index.d.ts"
-      ],
       "@giftan/shared/*": [
-        "shared/dist/*/index.d.ts",
-        "shared/dist/*.d.ts"
+        "packages/shared/src/*"
       ]
     }
   },
@@ -39,7 +35,7 @@
       "path": "./apps/backend"
     },
     {
-      "path": "./shared"
+      "path": "./packages/shared"
     }
   ]
 }

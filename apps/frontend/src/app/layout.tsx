@@ -5,7 +5,6 @@ import Toaster from "../components/ui/Toaster";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 import StoreProvider from "./storeProvider";
-import { ApolloClientProvider } from "@/providers/apollo-provider";
 
 const rubik = Rubik({
   variable: "--font-geist-sans",
@@ -33,14 +32,12 @@ export default async function RootLayout({
       <body
         className={`${rubik.variable} font-sans`}
       >
-        <ApolloClientProvider>
-            <StoreProvider>
-              <Header />
-              {children}
-              <Toaster />
-              <Footer />
-            </StoreProvider>
-        </ApolloClientProvider>
+        <StoreProvider>
+          <Header />
+          {children}
+          <Toaster />
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

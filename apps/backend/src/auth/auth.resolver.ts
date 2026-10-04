@@ -1,5 +1,5 @@
 import { Resolver, Mutation, Query, Args, Context } from '@nestjs/graphql';
-import { UseInterceptors } from '@nestjs/common';
+import { UseFilters, UseInterceptors } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Public } from '@/common/decorators/public.decorator';
 import { CurrentUser } from '@/common/decorators/current-user.decorator';
@@ -7,8 +7,7 @@ import { ZodValidationPipe } from '@/common/pipes/zod-validation.pipe';
 import { ZodSerializerInterceptor } from '@/common/interceptors/zod-serializer.interceptor';
 import { SetAccessTokenInterceptor } from './set-access-token.interceptor';
 import {
-  RegistrationInputSchema,
-  RegistrationResponseSchema
+  RegistrationResponse
 } from '@giftan/shared/auth/registration/contract';
 import {
   LoginInputSchema,
@@ -16,27 +15,29 @@ import {
 } from '@giftan/shared/auth/login/contract';
 import { RegisterInputDto } from './dto/inputs/register.input';
 import { LoginInputDto } from './dto/inputs/login.input';
-import { RegisterResponseDto } from './dto/responses/register.response';
+import { RegistrationResponseDto } from './dto/responses/register.response';
 import { LoginResponseDto } from './dto/responses/login.response';
 import { VerifyEmailResponse } from './dto/responses/verify-email.response';
 import { LogoutResponse } from './dto/responses/logout.response';
 import { UpdateAccessTokenResponseDto } from './dto/responses/update-access-token.response';
 import { UserType } from '@/users/dto/user.type';
 import { type CurrentUserPayload } from '@/common/interfaces/current-user.interface';
-import { UserRole } from '@/common/enums/role.enum';
+import { UserRole } from '@giftan/shared/common/enums/user-role.enum';
 import { UsePipes } from '@nestjs/common';
+import { ZodGqlExceptionFilter } from '@/common/filters/zod-exception.filter';
 
 @Resolver()
 export class AuthResolver {
   constructor(private readonly authService: AuthService) { }
 
-  @Mutation(() => RegisterResponseDto, { name: 'register' })
+  @Mutation(() => RegistrationResponseDto, { name: 'register' })
   @Public()
-  @UseInterceptors(new ZodSerializerInterceptor(RegistrationResponseSchema))
-  @UsePipes(new ZodValidationPipe(RegistrationInputSchema))
+  // @UseInterceptors(new ZodSerializerInterceptor(RegistrationResponseSchema))
+  // @UsePipes(new ZodValidationPipe(RegistrationInputSchema))
+  @UseFilters(ZodGqlExceptionFilter)
   async register(
     @Args('input', { type: () => RegisterInputDto }) input: RegisterInputDto,
-  ): Promise<RegisterResponseDto> {
+  ): Promise<RegistrationResponse> {
     return this.authService.registerCredentials(input);
   }
 

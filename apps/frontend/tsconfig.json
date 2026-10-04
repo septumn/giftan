@@ -23,12 +23,8 @@
       "@/*": [
         "./src/*"
       ],
-      "@giftan/shared": [
-        "../../shared/src/index.ts"
-      ],
       "@giftan/shared/*": [
-        "../../shared/src/*.ts",
-        "../../shared/src/*/index.ts"
+        "../../packages/shared/src/*"
       ]
     },
     "plugins": [

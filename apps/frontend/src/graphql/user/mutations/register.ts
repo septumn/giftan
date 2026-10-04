@@ -3,16 +3,32 @@ import { gql } from '@apollo/client'
 export const REGISTER_MUTATION = gql`
   mutation Register($input: RegisterInputDto!) {
     register(input: $input) {
-      success
-      user
+      __typename
+      ... on RegistrationSuccessResponseDto {
+        success
+        user {
+          id
+          name
+          email
+          emailVerified
+          role
+        }
+      }
+      ... on RegistrationErrorResponseDto {
+        success
+        error {
+          code
+          message
+        }
+      }
     }
   }
 `
 
 export interface RegisterMutationVariables {
   input: {
-    name: string
     email: string
+    name: string
     password?: string
   }
 }
