@@ -13,6 +13,7 @@ import { APP_GUARD } from '@nestjs/core'
 import { GqlAuthGuard } from './common/guard/gql-auth.guard'
 import { TestsModule } from './tests/tests.module'
 import { JwtModule } from '@nestjs/jwt'
+import { K8sProbesModule } from './k8s-probes/k8s-probes.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { JwtModule } from '@nestjs/jwt'
         signOptions: { expiresIn: '1d' },
       }),
     }),
+    K8sProbesModule,
   ],
   providers: [
     AppService,
