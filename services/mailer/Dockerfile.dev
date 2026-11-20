@@ -1,0 +1,21 @@
+FROM golang:1.27.1-alpine AS builder
+
+WORKDIR /app
+
+COPY services/mailer/go.mod services/mailer/go.sum ./
+RUN go mod download
+
+COPY services/mailer/ ./
+
+RUN CGO_ENABLED=0 GOOS=linux go build -o mailer ./cmd/mailer/main.go
+
+FROM alpine:latest
+
+RUN apk --no-cache add ca-certificates
+
+WORKDIR /app
+
+COPY --from=builder /app/mailer .
+COPY --from=builder /app/templates ./templates
+
+CMD ["./mailer"]

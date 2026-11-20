@@ -2,8 +2,6 @@ import { NestFactory } from "@nestjs/core"
 import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify"
 import fastifyCookie from "@fastify/cookie"
 import { AppModule } from "./app.module"
-import { ValidationPipe } from "@nestjs/common"
-import 'tsconfig-paths/register'
 import { ZodValidationPipe } from "nestjs-zod"
 
 async function bootstrap() {

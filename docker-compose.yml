@@ -56,6 +56,7 @@ services:
       - CHOKIDAR_USEPOLLING=true
       - REDIS_HOST=redis
       - REDIS_PORT=6379
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
       db:
         condition: service_healthy
@@ -108,5 +109,35 @@ services:
       exit 0;
       "
 
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    volumes: 
+      - rabbitmq_volume:/var/lib/rabbitmq
+
+  mailer:
+    build:
+      context: .
+      dockerfile: ./services/mailer/Dockerfile.dev
+    env_file:
+      - ./services/mailer/.env
+    environment:
+      - RABBITMQ_URL=amqp://guest:guest@rabbitmq:5672/
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=465
+      - SMTP_USER=giftangmail@gmail.com
+      - SMTP_PASS=xtfm ymgk cpqg xvrn
+    depends_on:
+      rabbitmq:
+        condition: service_started
+      backend:
+        condition: service_started
+
 volumes:
   db_volume:
+  rabbitmq_volume:

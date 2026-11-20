@@ -65,6 +65,8 @@ export async function registerUser(formData: FormData): Promise<ActionResponse> 
       return { success: true }
     }
 
+    console.log(data, error)
+
     return { success: false, error: "Не удалось получить подтверждение регистрации от сервера" }
 
   } catch (error: any) {

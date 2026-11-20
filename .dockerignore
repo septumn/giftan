@@ -1,5 +1,34 @@
-# node_modules
-.next
-out
-.git
+# Common
+**/node_modules
+**/dist
+**/.env*
+**/Dockerfile*
+**/README.md
+**/.vscode
+**/eslint.config.mjs
+**/.gitignore
+**/.dockerignore
+
+# Frontend (Next.js)
+apps/frontend/.next
+apps/frontend/playwright-report
+apps/frontend/tests
+apps/frontend/test-results
+apps/frontend/next-env.d.ts
+apps/frontend/playwright.config.ts
+
+# Backend (Nest.js)
+apps/backend/.nest
+apps/backend/**/*.spec.ts
+apps/backend/test
+apps/backend/.prettierrc
+apps/backend/tsconfig.build.tsbuildinfo
+
+# Backend (Golang)
+services/mailer/**/*_test.go
+
+# Other
 db_data
+minio_data
+.git
+.github

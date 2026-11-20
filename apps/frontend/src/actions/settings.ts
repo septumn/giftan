@@ -1,54 +1,54 @@
-import { db } from "@/db"
-import { users } from "@/db/schema"
-import { eq } from "drizzle-orm"
-import { compare, hash } from "bcrypt-ts"
-import { auth } from "@/auth"
-import { ChangePasswordData, changePasswordSchema } from "@/lib/schemas/validation/forms/change-password"
+// import { db } from "@/db"
+// import { users } from "@/db/schema"
+// import { eq } from "drizzle-orm"
+// import { compare, hash } from "bcrypt-ts"
+// import { auth } from "@/auth"
+// import { ChangePasswordData, changePasswordSchema } from "@/lib/schemas/validation/forms/change-password"
 
-export interface ActionResponse {
-  success: boolean
-  error: string | null
-}
+// export interface ActionResponse {
+//   success: boolean
+//   error: string | null
+// }
 
-export async function changePassword({ oldPassword, newPassword }: ChangePasswordData): Promise<ActionResponse> {
-  const session = await auth()
+// export async function changePassword({ oldPassword, newPassword }: ChangePasswordData): Promise<ActionResponse> {
+//   const session = await auth()
 
-  if (!session?.user?.id) return { success: false, error: "Unauthorized" }
+//   if (!session?.user?.id) return { success: false, error: "Unauthorized" }
 
-  const data = {
-    oldPassword,
-    newPassword
-  }
+//   const data = {
+//     oldPassword,
+//     newPassword
+//   }
 
-  const validation = changePasswordSchema.safeParse(data)
+//   const validation = changePasswordSchema.safeParse(data)
 
-  if (!validation.success) {
-    return { success: false, error: validation.error.issues[0]?.message || 'Ошибка валидации' }
-  }
+//   if (!validation.success) {
+//     return { success: false, error: validation.error.issues[0]?.message || 'Ошибка валидации' }
+//   }
 
-  try {
-    const [user] = await db
-      .select({ password: users.password })
-      .from(users)
-      .where(eq(users.id, session.user.id))
+//   try {
+//     const [user] = await db
+//       .select({ password: users.password })
+//       .from(users)
+//       .where(eq(users.id, session.user.id))
 
-    if (!user?.password) return { success: false, error: 'Пароль не установлен в этом аккаунте' }
+//     if (!user?.password) return { success: false, error: 'Пароль не установлен в этом аккаунте' }
 
-    const isMatch = await compare(oldPassword, user.password)
+//     const isMatch = await compare(oldPassword, user.password)
 
-    if (isMatch) {
-      const hashedPassword = await hash(newPassword, 10)
+//     if (isMatch) {
+//       const hashedPassword = await hash(newPassword, 10)
 
-      await db
-        .update(users)
-        .set({ password: hashedPassword })
-        .where(eq(users.id, session.user.id))
+//       await db
+//         .update(users)
+//         .set({ password: hashedPassword })
+//         .where(eq(users.id, session.user.id))
 
-      return { success: true, error: null }
-    } else {
-      return { success: false, error: 'Не верный пароль' }
-    }
-  } catch {
-    return { success: false, error: 'Ошибка обновления пароля' }
-  }
-}
+//       return { success: true, error: null }
+//     } else {
+//       return { success: false, error: 'Не верный пароль' }
+//     }
+//   } catch {
+//     return { success: false, error: 'Ошибка обновления пароля' }
+//   }
+// }

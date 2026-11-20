@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
-import "./globals.css";
 import Toaster from "../components/ui/Toaster";
 import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";

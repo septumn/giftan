@@ -4,6 +4,7 @@ import SearchBlock from './SearchBlock';
 import HeaderActionsBlock from './HeaderActionsBlock';
 import HeaderNavMenuBlock from './HeaderNavMenuBlock';
 import Image from 'next/image';
+import { Suspense } from 'react';
 
 const Header = () => {
   return (
@@ -12,7 +13,9 @@ const Header = () => {
         <div className={styles.headerWrapper}>
           <LogoBlock />
 
-          <SearchBlock />
+          <Suspense fallback={null}>
+            <SearchBlock />
+          </Suspense>
 
           <HeaderActionsBlock />
         </div>

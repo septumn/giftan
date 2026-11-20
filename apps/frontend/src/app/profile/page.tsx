@@ -1,6 +1,5 @@
 // import { useState, useEffect } from 'react'
 import styles from './page.module.css'
-import { useSession } from 'next-auth/react'
 import { updateProfile } from '../../actions/update-profile'
 import { toast } from 'sonner'
 import UserAvatar from './UserAvatar'
@@ -9,7 +8,7 @@ import { useAppDispatch } from '@/lib/store/hooks'
 import { setOptimisticTitleAvatar } from '@/lib/store/slices/userSlice'
 import LogoutButton from './LogoutButton'
 import ProfileHeader from './components/ProfileHeader/ProfileHeader'
-import ProfileTabs from './components/ProfileTabs/ProfileTabs'
+// import ProfileTabs from './components/ProfileTabs/ProfileTabs'
 
 export default async function ProfilePage() {
   // const dispatch = useAppDispatch()
@@ -77,8 +76,8 @@ export default async function ProfilePage() {
 
       <div className={styles.container}>
         <ProfileHeader />
-
-        <ProfileTabs />
+{/* 
+        <ProfileTabs /> */}
         {/* <div className={styles.profileCard}>
           <div className={styles.coverBand} />
           <LogoutButton />

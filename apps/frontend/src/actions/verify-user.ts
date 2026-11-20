@@ -1,26 +1,26 @@
-'use server'
+// 'use server'
 
-import { unstable_update } from "@/auth"
+// import { unstable_update } from "@/auth"
 
-export async function verifyUser(token: string) {
-  try {
-    const response = await fetch(`${process.env.NEST_API_URL}/auth/verify?token=${token}`, {
-      method: 'POST',
-    });
-    const data = await response.json();
+// export async function verifyUser(token: string) {
+//   try {
+//     const response = await fetch(`${process.env.NEST_API_URL}/auth/verify?token=${token}`, {
+//       method: 'POST',
+//     });
+//     const data = await response.json();
 
-    if (data.error) {
-      return { error: data.error };
-    }
+//     if (data.error) {
+//       return { error: data.error };
+//     }
 
-    await unstable_update({
-      user: {
-        emailVerified: data.emailVerified
-      }
-    });
+//     await unstable_update({
+//       user: {
+//         emailVerified: data.emailVerified
+//       }
+//     });
 
-    return { success: true };
-  } catch (err) {
-    return { error: "Ошибка соединения с сервером" };
-  }
-}
+//     return { success: true };
+//   } catch (err) {
+//     return { error: "Ошибка соединения с сервером" };
+//   }
+// }

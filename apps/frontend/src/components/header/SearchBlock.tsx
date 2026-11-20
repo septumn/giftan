@@ -17,7 +17,7 @@ const SearchBlock = () => {
     setQuery(searchParams.get('q') || '');
   }, [searchParams]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     const params = new URLSearchParams(searchParams.toString());
 
     e.preventDefault();

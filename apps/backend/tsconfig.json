@@ -33,9 +33,9 @@
       "@/*": [
         "./src/*"
       ],
-      "@giftan/shared/*": [
-        "../../packages/shared/src/*"
-      ]
+      // "@giftan/shared/*": [
+      //   "../../packages/shared/src/*"
+      // ]
     }
   },
   "include": [

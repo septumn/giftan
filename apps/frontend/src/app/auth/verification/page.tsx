@@ -5,7 +5,7 @@ import VerifyTrigger from "./VerifyTrigger"
 import ResendButton from "./ResendButton"
 import { getClient } from "@/lib/apollo/client"
 import { TOKEN_DISPATCH_TIME_QUERY } from "@/graphql/user/queries/token-dispatch-time"
-import ErrorComponent from "./ErrorComponent"
+// import ErrorComponent from "./ErrorComponent"
 
 interface TokenDispatchTimeResponse {
   getTokenDispatchTime: number | null
@@ -48,7 +48,8 @@ export default async function VerificationPage({ searchParams }: VerificationPag
   }
 
   if (!dispatchTime) {
-    return <ErrorComponent hasError={hasError} />
+    // return <ErrorComponent hasError={hasError} />
+    return null // temporarily
   }
 
   const originalExpiresAt = dispatchTime

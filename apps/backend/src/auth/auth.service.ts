@@ -102,7 +102,14 @@ export class AuthService {
         return [insertedUser]
       })
 
-      await this.mailService.sendVerificationEmail(cleanEmail, confirmLink)
+      await this.mailService.sendMail({
+        to: newUser.email as string,
+        template: 'verify_email',
+        data: {
+          userName: newUser.name,
+          link: 'https://localhost:3000/auth/verification?token=${token}'
+        }
+      })
 
       return {
         success: true,

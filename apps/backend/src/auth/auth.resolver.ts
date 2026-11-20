@@ -32,8 +32,6 @@ export class AuthResolver {
 
   @Mutation(() => RegistrationResponseDto, { name: 'register' })
   @Public()
-  // @UseInterceptors(new ZodSerializerInterceptor(RegistrationResponseSchema))
-  // @UsePipes(new ZodValidationPipe(RegistrationInputSchema))
   @UseFilters(ZodGqlExceptionFilter)
   async register(
     @Args('input', { type: () => RegisterInputDto }) input: RegisterInputDto,

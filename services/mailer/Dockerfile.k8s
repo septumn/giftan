@@ -1,0 +1,21 @@
+FROM golang:1.27-alpine AS base
+WORKDIR /app
+
+FROM base AS deps
+COPY go.mod go.sum ./
+
+RUN go mod download
+
+FROM deps AS builder
+COPY . .
+
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o /app/mailer ./cmd/server/main.go
+
+FROM gcr.io/distroless/static-debian12:nonroot AS runner
+WORKDIR /app
+
+USER nonroot
+
+COPY --from=builder --chown=nonroot:nonroot /app/mailer ./mailer
+
+ENTRYPOINT ["./mailer"]

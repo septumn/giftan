@@ -1,0 +1,32 @@
+replicaCount: 1
+
+image:
+  repository: giftan/backend
+  tag: latest
+  pullPolicy: Never
+
+service:
+  type: ClusterIP
+  port: 4000
+
+config:
+  APP_ENV: "dev"
+  LOG_LEVEL: "info"
+  MAILER_URL: "http://giftan-gateway-go-mailer:4001"
+
+secrets:
+  DB_URL: "postgres://user:password@postgres:5432/giftan_db"
+  JWT_SECRET: "jwt_secret"
+
+probes:
+  startupPath: /startedz
+  readinessPath: /readyz
+  livenessPath: /healthz
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128mi
+  limits:
+    cpu: 500m
+    memory: 512mi
