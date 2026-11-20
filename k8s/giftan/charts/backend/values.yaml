@@ -1,9 +1,12 @@
 replicaCount: 1
 
 image:
-  repository: giftan/backend
-  tag: latest
-  pullPolicy: Never
+  repository: registry.gitlab.com/septumn/giftan/backend
+  tag: v0.1.0
+  pullPolicy: IfNotPresent
+
+imagePullSecrets:
+  - name: regcred
 
 service:
   type: ClusterIP
@@ -19,14 +22,14 @@ secrets:
   JWT_SECRET: "jwt_secret"
 
 probes:
-  startupPath: /startedz
+  startupPath: /healthz
   readinessPath: /readyz
   livenessPath: /healthz
 
 resources:
   requests:
     cpu: 100m
-    memory: 128mi
+    memory: 128Mi
   limits:
     cpu: 500m
-    memory: 512mi
+    memory: 512Mi
